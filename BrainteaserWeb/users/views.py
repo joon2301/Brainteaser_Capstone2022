@@ -15,7 +15,7 @@ def main(request):
         #이거 if문에 True/False 박고 해주세요! 디비는 저한테만 있어서..
         if login(username,password):
             #이거 도와주세요!! 페이지 이동 실패만 자꾸 뜨네요
-            return render(request, 'BrainteaserWeb/theme/templates/index.html')
+            return render(request, 'index.html')
         else:
             return render(request, "users/main.html")
 
