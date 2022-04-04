@@ -28,7 +28,7 @@ def main(request):
     #     return render(request, 'users/main.html')
 
 def login(username,password):
-    conn = pymysql.connect(host='localhost', user='root2',password='1q2w3e4r!',db='mydb',charset='utf8')
+    conn = pymysql.connect(host='34.146.163.3', user='root',password='1q2w3e4r!',db='mydb',charset='utf8')
     cur = conn.cursor()
     sql = "select Password from users where AccID =%s AND Password = %s"
 
