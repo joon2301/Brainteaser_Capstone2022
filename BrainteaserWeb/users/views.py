@@ -10,7 +10,10 @@ import pymysql
 def main(request):
     if request.method == 'GET':
         print(request.session.get('username'))
-        return render(request, "users/main.html")
+        if request.session.get('username') == None:
+            return render(request, "users/main.html")
+        else:
+            return redirect('index')
 
     elif request.method == 'POST':
         username = request.POST['username']
