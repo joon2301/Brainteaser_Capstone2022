@@ -19,7 +19,7 @@ def write(request):
 
 def view(request):
     # TeaserID가 자동적으로 수정되면서 다수의 URL을 사용할 수 있도록 해야함.
-    boardContents = BoardContents.objects.filter(TeaserID = 1)
+    boardContents = BoardContents.objects.get(TeaserID = 1)
     return render(request, 'view.html', {"boardContents":boardContents})
 
 def logout(request):

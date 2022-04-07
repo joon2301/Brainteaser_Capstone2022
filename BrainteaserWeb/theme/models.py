@@ -17,6 +17,7 @@ class Board(models.Model):
     def __str__(self):
         return '{} : {} :: {} : {} : {} '.format(self.TeaserID,self.Title,self.AccID,self.Date.date(),self.Clicked)
 
+
 class BoardContents(models.Model):
     TeaserID = models.IntegerField(verbose_name="번호", primary_key=True)
     Title = models.CharField(max_length=50, verbose_name="제목")
