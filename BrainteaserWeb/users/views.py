@@ -28,7 +28,6 @@ def login(username, password):
 
     cur.execute(sql, (username, password))
     users = cur.fetchall()
-    connection.close()
     if len(users) == 1:
         # 성공
         return True
