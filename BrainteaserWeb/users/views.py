@@ -1,9 +1,5 @@
-from audioop import reverse
-from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
-from django.urls import reverse
-import pymysql
+from django.db import connection
 
 
 # Create your views here.
@@ -20,23 +16,21 @@ def main(request):
         password = request.POST['password']
         if login(username, password):
             save_session(request, username, password)
+            print(request.session.get('username'),"성공")
             return redirect('index')
         else:
             return render(request, "users/main.html")
 
 
 def login(username, password):
-    conn = pymysql.connect(host='34.146.163.3', user='root', password='1q2w3e4r!', db='mydb', charset='utf8')
-    cur = conn.cursor()
+    cur = connection.cursor()
     sql = "select Password from users where AccID =%s AND Password = %s"
 
     cur.execute(sql, (username, password))
     users = cur.fetchall()
-    conn.close()
+    connection.close()
     if len(users) == 1:
         # 성공
-        print("성공")
-
         return True
     else:
         # 실패

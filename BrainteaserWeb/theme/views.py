@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
-
+from .models import ITBoard
 
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
 
 def list(request):
-    return render(request, 'list.html')
+    boards = ITBoard.objects.all()
+    return render(request, 'list.html',{"boards":boards})
 
 def write(request):
     return render(request, 'write.html')
