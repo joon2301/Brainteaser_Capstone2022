@@ -10,7 +10,6 @@ def index(request):
 
 def list(request):
     # IT 게시판
-    boardDict = serializers.serialize("json", Board.objects.filter(Category='Category1'))
     boards = Board.objects.filter(Category='Category1')
     boardList = []
     for i in boards:
@@ -30,7 +29,9 @@ def write(request):
 def view(request):
     # TeaserID가 자동적으로 수정되면서 다수의 URL을 사용할 수 있도록 해야함.
     boardContents = BoardContents.objects.get(TeaserID = 1)
-    return render(request, 'view.html', {"boardContents":boardContents})
+    contents = str(boardContents).split(',')
+    print(contents)
+    return render(request, 'view.html', {"boardContents":contents})
 
 def logout(request):
     print(request.session.get('username'), "로그아웃")
