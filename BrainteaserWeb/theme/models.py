@@ -15,7 +15,7 @@ class Board(models.Model):
         managed = False
 
     def __str__(self):
-        return '{} : {} :: {} : {} : {} '.format(self.TeaserID,self.Title,self.AccID,self.Date.date(),self.Clicked)
+        return '{},{},{},{},{}'.format(self.TeaserID,self.Title,self.AccID,self.Date.date(),self.Clicked)
 
 
 class BoardContents(models.Model):
@@ -31,4 +31,4 @@ class BoardContents(models.Model):
         managed = False
 
     def __str__(self):
-        return '{} : {} :: {} : {} : {} ::: {}'.format(self.Title,self.TeaserID,self.AccID,self.Date.date(),self.Clicked,self.Teaser)
+        return '{},{},{},{},{},{}'.format(self.Title,self.TeaserID,self.AccID,self.Date.date(),self.Clicked,self.Teaser)

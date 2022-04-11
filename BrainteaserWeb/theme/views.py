@@ -10,13 +10,19 @@ def index(request):
 
 def list(request):
     # IT 게시판
+    boardDict = serializers.serialize("json", Board.objects.filter(Category='Category1'))
     boards = Board.objects.filter(Category='Category1')
+    boardList = []
+    for i in boards:
+        boardList.append(str(i).split(','))
+    print(boardList)
+
     # 다른 게시판2
     # boards = Board.objects.filter(Category='Category2')
     # 다른 게시판3
     # boards = Board.objects.filter(Category='Category3')
-    boardDict = serializers.serialize("json", Board.objects.filter(Category='Category1'))
-    return render(request, 'list.html',{"boards":boardDict})
+
+    return render(request, 'list.html',{"boards":boardList})
 
 def write(request):
     return render(request, 'write.html')
@@ -30,15 +36,3 @@ def logout(request):
     print(request.session.get('username'), "로그아웃")
     request.session.flush()
     return redirect('/')
-
-# def boardToDict(board):
-#     if board == None:
-#         return None
-#     dict = {}
-#     dict['TeaserID'] = board.TeaserID
-#     dict['AccID'] = board.AccID
-#     dict['Date'] = board.Date
-#     dict['Title'] = board.Title
-#     dict['Clicked'] = board.Clicked
-#     return dict
-
