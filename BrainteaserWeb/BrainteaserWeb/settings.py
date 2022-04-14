@@ -86,7 +86,8 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': '1q2w3e4r!',
         'HOST': '34.146.163.3',
-        'PORT': '3306'
+        'PORT': '3306',
+        'AUTOCOMMIT': True
     }
 }
 

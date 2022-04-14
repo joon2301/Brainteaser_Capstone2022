@@ -25,9 +25,19 @@
                 {% for boards in posts %}
                 <div>
                     <div class="num">{{boards.TeaserID}}</div>
-                    <div class="title"><a href="?post={{boards.TeaserID}}">{{boards.Title}}</a></div>
+                    <div class="title"><a href="post={{boards.TeaserID}}">{{boards.Title}}</a></div>
                     <div class="writer">{{boards.AccID}}</div>
-                    <div class="date">{{boards.Date}}</div>
+                    <script>
+                        var dateTime = '{{boards.Date}}';
+                        var year,month,date;
+                        temp = dateTime.split('년 ');
+                        year = temp[0];
+                        temp = temp[1].split('월 ');
+                        month = temp[0];
+                        temp = temp[1].split('일 ');
+                        date = temp[0];
+                        document.write( '<div class="date">' + year + '.' + month + '.' + date+'</div>' );
+                    </script>
                     <div class="count">{{boards.Clicked}}</div>
                 </div>
                 {%endfor%}

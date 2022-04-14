@@ -1,3 +1,4 @@
+from django.db import connection,transaction
 from django.shortcuts import render, redirect
 from .models import Board,BoardContents
 from django.core.paginator import Paginator
@@ -5,19 +6,7 @@ from django.core.paginator import Paginator
 def index(request):
     return render(request, 'index.html')
 
-def list(request,idx = 0):
-    # IT 게시판
-    if idx != 0 :
-        idx = idx
-    boards = Board.objects.filter(Category='Category1')
-    boardList = []
-    for i in boards:
-        boardList.append(str(i).split(','))
-
-    print(len(boards))
-    return render(request, 'list.html',{"boards":boardList,'index':idx})
-
-def list2(request):
+def list(request):
     boards = Board.objects
     boardList = Board.objects.filter(Category='Category1')
     paginator = Paginator(boardList,'5')
@@ -28,11 +17,10 @@ def list2(request):
 def write(request):
     return render(request, 'write.html')
 
-def view(request):
-    # TeaserID가 자동적으로 수정되면서 다수의 URL을 사용할 수 있도록 해야함.
-    boardContents = BoardContents.objects.get(TeaserID = 1)
+def view(request,p):
+    boardContents = BoardContents.objects.get(TeaserID = p)
     contents = str(boardContents).split(',')
-    print(contents)
+    clickedUp(contents,p)
     return render(request, 'view.html', {"boardContents":contents})
 
 def logout(request):
@@ -40,9 +28,11 @@ def logout(request):
     request.session.flush()
     return redirect('/')
 
-def next(request):
+def clickedUp(contents,p):
+    with connection.cursor() as cursor:
+        clicked = int(contents[4])+1
+        cursor.execute("update brainTeaser set Clicked = %d where teaserID = %d"%(clicked,p))
 
-    return list(request,1)
 
 
 
