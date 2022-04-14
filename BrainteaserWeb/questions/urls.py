@@ -9,8 +9,8 @@ urlpatterns = [
     path('list/write', views.write, name='write'),
     path('list/post=<int:p>', views.view, name='view'),
     path('write/', views.write, name='write'),
+    path('list/post=<int:p>/edit/',views.edit, name='edit')
 
-            
-            
+
 ]
 

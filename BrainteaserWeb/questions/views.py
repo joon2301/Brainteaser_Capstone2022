@@ -26,6 +26,10 @@ def clickedUp(contents,p):
         clicked = int(contents[4])+1
         cursor.execute("update brainTeaser set Clicked = %d where teaserID = %d"%(clicked,p))
 
+def edit(request,p):
+    print(p)
+    return render(request, 'edit.html')
+
 
 
 
