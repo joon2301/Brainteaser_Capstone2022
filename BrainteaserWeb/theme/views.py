@@ -1,3 +1,4 @@
+from django.db import connection,transaction
 from django.shortcuts import render, redirect
 from .models import Board,BoardContents
 from django.core.paginator import Paginator
@@ -19,7 +20,7 @@ def write(request):
 def view(request,p):
     boardContents = BoardContents.objects.get(TeaserID = p)
     contents = str(boardContents).split(',')
-    print(contents)
+    clickedUp(contents,p)
     return render(request, 'view.html', {"boardContents":contents})
 
 def logout(request):
@@ -27,9 +28,11 @@ def logout(request):
     request.session.flush()
     return redirect('/')
 
-def next(request):
+def clickedUp(contents,p):
+    with connection.cursor() as cursor:
+        clicked = int(contents[4])+1
+        cursor.execute("update brainTeaser set Clicked = %d where teaserID = %d"%(clicked,p))
 
-    return list(request,1)
 
 
 
