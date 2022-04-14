@@ -5,19 +5,7 @@ from django.core.paginator import Paginator
 def index(request):
     return render(request, 'index.html')
 
-def list(request,idx = 0):
-    # IT 게시판
-    if idx != 0 :
-        idx = idx
-    boards = Board.objects.filter(Category='Category1')
-    boardList = []
-    for i in boards:
-        boardList.append(str(i).split(','))
-
-    print(len(boards))
-    return render(request, 'list.html',{"boards":boardList,'index':idx})
-
-def list2(request):
+def list(request):
     boards = Board.objects
     boardList = Board.objects.filter(Category='Category1')
     paginator = Paginator(boardList,'5')
@@ -28,9 +16,8 @@ def list2(request):
 def write(request):
     return render(request, 'write.html')
 
-def view(request):
-    # TeaserID가 자동적으로 수정되면서 다수의 URL을 사용할 수 있도록 해야함.
-    boardContents = BoardContents.objects.get(TeaserID = 1)
+def view(request,p):
+    boardContents = BoardContents.objects.get(TeaserID = p)
     contents = str(boardContents).split(',')
     print(contents)
     return render(request, 'view.html', {"boardContents":contents})
