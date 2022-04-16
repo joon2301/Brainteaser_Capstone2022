@@ -32,3 +32,14 @@ class BoardContents(models.Model):
 
     def __str__(self):
         return '{},{},{},{},{},{}'.format(self.Title,self.TeaserID,self.AccID,self.Date.date(),self.Clicked,self.Teaser)
+
+
+class TeaserAnswer(models.Model):
+    AnswerID = models.IntegerField(verbose_name="번호", primary_key=True)
+    AccID = models.CharField(max_length=15, verbose_name="작성자")
+    Answer = models.CharField(max_length=100, verbose_name="댓글")
+    Date = models.DateTimeField(auto_now_add=True, verbose_name="작성일")
+    TeaserID = models.IntegerField(verbose_name="번호")
+
+    class Meta:
+        db_table = 'teaserAnswer'

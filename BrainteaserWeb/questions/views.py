@@ -1,6 +1,6 @@
 from django.db import connection,transaction
 from django.shortcuts import render, redirect
-from .models import Board,BoardContents
+from .models import Board, BoardContents, TeaserAnswer
 from django.core.paginator import Paginator
 # Create your views here.
 
@@ -17,9 +17,14 @@ def write(request):
 
 def view(request,p):
     boardContents = BoardContents.objects.get(TeaserID = p)
+    try:
+        answers = TeaserAnswer.objects.filter(TeaserID = p)
+    except:
+        print('없는데요?')
+        answers = None
     contents = str(boardContents).split(',')
     clickedUp(contents,p)
-    return render(request, 'view.html', {"boardContents":contents})
+    return render(request, 'view.html', {"boardContents":contents, 'teaserAns':answers})
 
 def clickedUp(contents,p):
     with connection.cursor() as cursor:
