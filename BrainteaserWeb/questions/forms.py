@@ -12,4 +12,3 @@ class answerForm(ModelForm):
                 'placeholder': '답안을 입력 해주세요!',
             }),
         }
-

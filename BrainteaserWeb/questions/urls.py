@@ -10,6 +10,7 @@ urlpatterns = [
 
     path('list/post=<int:p>', views.view, name='view'),
     path('list/post=<int:p>/comment=<int:c>/del', views.delComment, name='commentDel'),
+    path('list/post=<int:p>/comment=<int:c>/edit', views.editComment, name='commentDel'),
 
     path('list/post=<int:p>/edit/',views.edit, name='postEdit')
 

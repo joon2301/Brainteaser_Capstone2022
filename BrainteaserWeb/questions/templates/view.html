@@ -63,7 +63,13 @@
                                 {% if request.session.username == ans.AccID %}
                                 <div class="ms-3">
                                     <div class="fw-bold">{{ans.AccID}}
-                                        <a href="#" class="fw-bold">수정</a>
+                                        <a type="button" onclick="edit()" class="fw-bold">수정</a>
+                                        <script>
+                                            function edit(){
+                                                window.open("post={{ans.TeaserID}}/comment={{ans.AnswerID}}/edit","댓글편집",
+                                                    "width=500, height=190");
+                                                }
+                                        </script>
                                         <a class="fw-bold">/</a>
                                         <a type='Button' onclick='delQNA()' class="fw-bold">삭제</a>
                                         <script>

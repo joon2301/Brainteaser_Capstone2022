@@ -1,4 +1,5 @@
 from django.db import connection
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .models import Board, BoardContents, TeaserAnswer
 from django.core.paginator import Paginator
@@ -89,3 +90,22 @@ def delComment(request, p, c):
     return view(request,p)
 
 
+def editComment(request,p,c):
+    print('post:', p, 'answerID:', c)
+    try:
+        answers = TeaserAnswer.objects.filter(TeaserID=p,AnswerID=c)
+    except:
+        print('댓글이 없는데요?')
+        answers = None
+    if request.method == 'POST':
+        updateAnswer = request.POST['comment']
+        print(updateAnswer)
+        with connection.cursor() as cursor:
+            try:
+                cursor.execute("update teaserAnswer set Answer='%s' where TeaserID = %d AND AnswerID = %d;"%(updateAnswer,p,c))
+                return HttpResponse('<script>window.close()</script>')
+            except:
+                print('error')
+    return render(request, 'comEdit.html',{
+        'ans':answers[0],
+    })
