@@ -62,7 +62,22 @@
                                 <!-- Parent comment-->
                                 {% if request.session.username == ans.AccID %}
                                 <div class="ms-3">
-                                    <div class="fw-bold">{{ans.AccID}} 수정가능</div>
+                                    <div class="fw-bold">{{ans.AccID}}
+                                        <a href="#" class="fw-bold">수정</a>
+                                        <a class="fw-bold">/</a>
+                                        <a type='Button' onclick='delQNA()' class="fw-bold">삭제</a>
+                                        <script>
+                                            function delQNA(){
+                                              var res = confirm('댓글을 정말로 삭제하시겠습니까?');
+                                              if(res){
+                                                temp = window.location
+                                                window.location.href = "post={{ans.TeaserID}}/comment={{ans.AnswerID}}/del"
+                                                alert("성공적으로 삭제되었습니다.");
+                                                window.location.href = temp
+                                              }
+                                            }
+                                        </script>
+                                    </div>
                                     <div> {{ans.Answer}} </div>
                                 </div>
                                 {% else %}

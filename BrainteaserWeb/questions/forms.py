@@ -2,7 +2,6 @@ from django.forms import ModelForm, Textarea
 from .models import TeaserAnswer
 
 class answerForm(ModelForm):
-
     class Meta:
         model = TeaserAnswer
         fields = ['Answer']

@@ -1,12 +1,11 @@
 from django.db import connection
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Board, BoardContents, TeaserAnswer
 from django.core.paginator import Paginator
 from .forms import answerForm
 import datetime
-
-
 # Create your views here.
+
 
 # 게시글 리스트 보기
 def list(request):
@@ -21,10 +20,6 @@ def list(request):
     })
 
 
-def write(request):
-    return render(request, 'write.html')
-
-
 # 게시글 보기
 def view(request, p):
     # 게시글 내용 가져오기
@@ -34,7 +29,7 @@ def view(request, p):
     try:
         answers = TeaserAnswer.objects.filter(TeaserID=p)
     except:
-        print(' 댓글이 없는데요?')
+        print('댓글이 없는데요?')
         answers = None
     # 조회수 +1
     clickedUp(contents, p)
@@ -52,13 +47,26 @@ def view(request, p):
     })
 
 
+def edit(request, p):
+    print(p)
+    return render(request, 'edit.html')
+
+
+def write(request):
+    return render(request, 'write.html')
+
+
 # 조회수 +1
 def clickedUp(contents, p):
     with connection.cursor() as cursor:
         clicked = int(contents[4]) + 1
-        cursor.execute("update brainTeaser set Clicked = %d where teaserID = %d" % (clicked, p))
+        try:
+            cursor.execute("update brainTeaser set Clicked = %d where teaserID = %d" % (clicked, p))
+        except:
+            print('error')
 
 
+# 댓글 추가
 def addComment(AccID, TeaserID, Answer):
     with connection.cursor() as cursor:
         cursor.execute("select MAX(AnswerID) from teaserAnswer")
@@ -70,7 +78,14 @@ def addComment(AccID, TeaserID, Answer):
         except:
             print('error')
 
+# 댓글 제거
+def delComment(request, p, c):
+    print('post:', p, 'answerID:', c)
+    with connection.cursor() as cursor:
+        try:
+            cursor.execute("delete from teaserAnswer where TeaserID = %d AND AnswerID = %d;"%(p,c))
+        except:
+            print('error')
+    return view(request,p)
 
-def edit(request, p):
-    print(p)
-    return render(request, 'edit.html')
+
