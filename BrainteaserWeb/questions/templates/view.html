@@ -52,7 +52,10 @@
                     <div class="card bg-light">
                         <div class="card-body">
                             <!-- Comment form-->
-                            <form class="mb-4"><textarea class="form-control" rows="3" placeholder="답안을 입력 해주세요!"></textarea></form>
+                            <form class="mb-4" method = "POST">
+                                {{answerForm}}
+                                <input type="submit" value="입력">
+                            </form>
                             <!-- Comment with nested comments-->
                             {% for ans in teaserAns %}
                             <div class="d-flex mb-4">
