@@ -9,9 +9,11 @@ import datetime
 
 
 # 게시글 리스트 보기
-def list(request):
+def list(request,t):
     boards = Board.objects
-    boardList = Board.objects.filter(Category='Category1')
+    category = {'it':'Category1','economics':'Category2','casual':'Category3'}
+    print(category[t])
+    boardList = Board.objects.filter(Category=category[t])
     paginator = Paginator(boardList, '5')
     page = request.GET.get('page', 1)
     posts = paginator.page(page)
@@ -22,7 +24,7 @@ def list(request):
 
 
 # 게시글 보기
-def view(request, p):
+def view(request, t, p):
     # 게시글 내용 가져오기
     boardContents = BoardContents.objects.get(TeaserID=p)
     contents = str(boardContents).split(',')
@@ -48,7 +50,7 @@ def view(request, p):
     })
 
 
-def edit(request, p):
+def edit(request, t, p):
     print(p)
     return render(request, 'edit.html')
 
@@ -80,7 +82,7 @@ def addComment(AccID, TeaserID, Answer):
             print('error')
 
 # 댓글 제거
-def delComment(request, p, c):
+def delComment(request, t, p, c):
     print('post:', p, 'answerID:', c)
     with connection.cursor() as cursor:
         try:
@@ -90,7 +92,7 @@ def delComment(request, p, c):
     return view(request,p)
 
 
-def editComment(request,p,c):
+def editComment(request,t,p,c):
     print('post:', p, 'answerID:', c)
     try:
         answers = TeaserAnswer.objects.filter(TeaserID=p,AnswerID=c)
