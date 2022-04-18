@@ -61,7 +61,7 @@ def edit(request, t, p):
             return redirect('/questions/'+t+'/post=' + str(p))
 
         else:
-            return render(request, 'edit.html', {'bdc': board_Contents})
+            return render(request, 'edit.html', {'bdc': board_Contents, 'category':t})
 
 
 def write(request):
