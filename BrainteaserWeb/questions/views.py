@@ -1,7 +1,7 @@
 from django.db import connection
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .models import Board, BoardContents, TeaserAnswer
+from .models import Board, BoardContents, TeaserAnswer, FinalAnswer
 from django.core.paginator import Paginator
 from .forms import answerForm
 import datetime
@@ -91,7 +91,7 @@ def delComment(request, t, p, c):
             print('error')
     return view(request,p)
 
-
+# 댓글 수정
 def editComment(request,t,p,c):
     print('post:', p, 'answerID:', c)
     try:
@@ -111,3 +111,12 @@ def editComment(request,t,p,c):
     return render(request, 'comEdit.html',{
         'ans':answers[0],
     })
+
+# 댓글 좋아요
+def likeAnswer(request,t,p,c):
+    print(request.session.get('username'),c)
+    for object in FinalAnswer.objects.filter(AnswerID=c):
+        print(object)
+
+
+    return HttpResponse('<script>window.close()</script>')

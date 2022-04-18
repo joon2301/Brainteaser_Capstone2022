@@ -85,13 +85,22 @@
                                         </script>
                                     </div>
                                     <div> {{ans.Answer}} </div>
-                                </div>
+
                                 {% else %}
                                 <div class="ms-3">
                                     <div class="fw-bold">{{ans.AccID}}</div>
                                     <div> {{ans.Answer}} </div>
-                                </div>
+
                                 {% endif %}
+                                    <a type="button" onclick="like()"> 추천:  </a>
+                                        <script>
+                                            function like(){
+                                                console.log('like');
+                                                window.open("post={{ans.TeaserID}}/comment={{ans.AnswerID}}/like","like"
+                                                    ,"width=1, height=1");
+                                            }
+                                        </script>
+                                </div>
                             </div>
                             {% endfor %}
                         </div>
