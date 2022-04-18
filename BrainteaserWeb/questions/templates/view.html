@@ -7,6 +7,10 @@
     <title>공지사항</title>
     <link rel="stylesheet" href='{% static "css/css.css"%}'>
     <link rel="stylesheet" href='{% static "css/styles2.css"%}'>
+    <script>
+        var currAcc = '{{request.session.username}}';
+        console.log(currAcc);
+    </script>
 </head>
 <body>
     <script>
@@ -48,40 +52,57 @@
                     <div class="card bg-light">
                         <div class="card-body">
                             <!-- Comment form-->
-                            <form class="mb-4"><textarea class="form-control" rows="3" placeholder="Join the discussion and leave a comment!"></textarea></form>
+                            <form class="mb-4" method = "POST">
+                                {{answerForm}}
+                                <input type="submit" value="입력">
+                            </form>
                             <!-- Comment with nested comments-->
+                            {% for ans in teaserAns %}
                             <div class="d-flex mb-4">
                                 <!-- Parent comment-->
-                                <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..."></div>
+                                {% if request.session.username == ans.AccID %}
                                 <div class="ms-3">
-                                    <div class="fw-bold">Commenter Name</div>
-                                    If you're going to lead a space frontier, it has to be government; it'll never be private enterprise. Because the space frontier is dangerous, and it's expensive, and it has unquantified risks.
-                                    <!-- Child comment 1-->
-                                    <div class="d-flex mt-4">
-                                        <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..."></div>
-                                        <div class="ms-3">
-                                            <div class="fw-bold">Commenter Name</div>
-                                            And under those conditions, you cannot establish a capital-market evaluation of that enterprise. You can't get investors.
-                                        </div>
+                                    <div class="fw-bold">{{ans.AccID}}
+                                        <a type="button" onclick="edit()" class="fw-bold">수정</a>
+                                        <script>
+                                            function edit(){
+                                                window.open("post={{ans.TeaserID}}/comment={{ans.AnswerID}}/edit","댓글편집",
+                                                    "width=500, height=190");
+                                                }
+                                        </script>
+                                        <a class="fw-bold">/</a>
+                                        <a type='Button' onclick='delQNA()' class="fw-bold">삭제</a>
+                                        <script>
+                                            function delQNA(){
+                                              var res = confirm('댓글을 정말로 삭제하시겠습니까?');
+                                              if(res){
+                                                temp = window.location
+                                                window.location.href = "post={{ans.TeaserID}}/comment={{ans.AnswerID}}/del"
+                                                alert("성공적으로 삭제되었습니다.");
+                                                window.location.href = temp
+                                              }
+                                            }
+                                        </script>
                                     </div>
-                                    <!-- Child comment 2-->
-                                    <div class="d-flex mt-4">
-                                        <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..."></div>
-                                        <div class="ms-3">
-                                            <div class="fw-bold">Commenter Name</div>
-                                            When you put money directly to a problem, it makes a good headline.
-                                        </div>
-                                    </div>
+                                    <div> {{ans.Answer}} </div>
+
+                                {% else %}
+                                <div class="ms-3">
+                                    <div class="fw-bold">{{ans.AccID}}</div>
+                                    <div> {{ans.Answer}} </div>
+
+                                {% endif %}
+                                    <a type="button" onclick="like()"> 추천:  </a>
+                                        <script>
+                                            function like(){
+                                                console.log('like');
+                                                window.open("post={{ans.TeaserID}}/comment={{ans.AnswerID}}/like","like"
+                                                    ,"width=1, height=1");
+                                            }
+                                        </script>
                                 </div>
                             </div>
-                            <!-- Single comment-->
-                            <div class="d-flex">
-                                <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..."></div>
-                                <div class="ms-3">
-                                    <div class="fw-bold">Commenter Name</div>
-                                    When I look at the universe and all the ways the universe wants to kill us, I find it hard to reconcile that with statements of beneficence.
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </section>
