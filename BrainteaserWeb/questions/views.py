@@ -127,5 +127,4 @@ def likeAnswer(request,t,p,c):
     for object in FinalAnswer.objects.filter(AnswerID=c):
         print(object)
 
-
     return HttpResponse('<script>window.close()</script>')
