@@ -30,7 +30,7 @@ def view(request, t, p):
     contents = str(boardContents).split(',')
     # 게시글 댓글 가져오기
     try:
-        answers = FinalAnswer.objects.filter(TeaserID=p)
+        answers = FinalAnswer.objects.filter(TeaserID=p).order_by('-Likes')
     except:
         print('댓글이 없는데요?')
         answers = None
