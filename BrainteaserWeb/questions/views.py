@@ -5,7 +5,9 @@ from .models import Board, BoardContents, TeaserAnswer, FinalAnswer
 from django.core.paginator import Paginator
 from .forms import answerForm
 import datetime
-from django.db.models import Count
+from django.db.models import Max
+
+
 # Create your views here.
 
 
@@ -67,11 +69,11 @@ def edit(request, t, p):
 
 def write(request,t):
     category = {'it': 'Category1', 'economics': 'Category2', 'casual': 'Category3'}
-    key = Board.objects.count()
-    print(key)
+    key = Board.objects.aggregate(TeaserID =Max('TeaserID'))
+    print(key['TeaserID'])
     if request.method == 'POST':
         board_Contents = Board()
-        board_Contents.TeaserID = key + 1
+        board_Contents.TeaserID = key['TeaserID'] + 1
         board_Contents.Title = request.POST['title']
         board_Contents.Category = category[t]
         board_Contents.Teaser = request.POST.get('text1', True)
