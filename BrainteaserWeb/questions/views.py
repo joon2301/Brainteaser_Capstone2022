@@ -14,7 +14,7 @@ from django.db.models import Max
 # 게시글 리스트 보기
 def list(request,t):
     boards = Board.objects
-    category = {'it':'Category1','economics':'Category2','casual':'Category3'}
+    category = {'it':'category1','economics':'category2','casual':'category3'}
     print(category[t])
     boardList = Board.objects.filter(Category=category[t])
     paginator = Paginator(boardList, '5')
@@ -68,7 +68,7 @@ def edit(request, t, p):
 
 
 def write(request,t):
-    category = {'it': 'Category1', 'economics': 'Category2', 'casual': 'Category3'}
+    category = {'it': 'category1', 'economics': 'category2', 'casual': 'category3'}
     key = Board.objects.aggregate(TeaserID =Max('TeaserID'))
     print(key['TeaserID'])
     if request.method == 'POST':
