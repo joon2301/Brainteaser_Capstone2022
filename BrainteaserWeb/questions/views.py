@@ -31,7 +31,7 @@ def view(request, t, p):
     contents = str(boardContents).split(',')
     # 게시글 댓글 가져오기
     try:
-        answers = TeaserAnswer.objects.filter(TeaserID=p)
+        answers = FinalAnswer.objects.filter(TeaserID=p).order_by('-Likes')
     except:
         print('댓글이 없는데요?')
         answers = None
@@ -138,8 +138,18 @@ def editComment(request,t,p,c):
 
 # 댓글 좋아요
 def likeAnswer(request,t,p,c):
+    username = request.session.get('username')
     print(request.session.get('username'),c)
-    for object in FinalAnswer.objects.filter(AnswerID=c):
-        print(object)
+    with connection.cursor() as cursor:
+        try:
+            cursor.execute("select * from Answer_User_Likes where AnswerID=%d AND AccID='%s';"%(c,username))
+            temp = cursor.fetchall()
+            print(len(temp))
+            if len(temp)>0:
+                cursor.execute("delete from Answer_User_Likes where AnswerID=%d AND AccID='%s';" % (c, username))
+            else:
+                cursor.execute("insert into Answer_User_Likes values('%s',%d)"%(username,c))
+        except:
+            print('error')
 
-    return HttpResponse('<script>window.close()</script>')
+    return redirect('view',t,p)
