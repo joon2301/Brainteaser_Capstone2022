@@ -39,34 +39,34 @@ def search(request,input):
     })
 
 
-#이름 검색
-def titleSearch(input):
-    # 변수 설정
-    corpusLabel = []
-    corpus = []
-    top_k = 0
-    teaserObjects = Board.objects.all().values()
-    commObjects = Community.objects.all().values()
-    for i in [teaserObjects,commObjects]:
-        for j in i:
-            corpusLabel.append([j['Title'],j['Category']])
-            corpus.append(j['Title'])
-
-    # KoBert 모델을 사용하여 문장 수치화
-    queryEmbedding = HomepageConfig.embedder.encode(input, convert_to_tensor=True)
-    corpusEmbeddings = HomepageConfig.embedder.encode(corpus, convert_to_tensor=True)
-
-    # 코사인 유사도 검사
-    cos_scores = util.pytorch_cos_sim(queryEmbedding, corpusEmbeddings)[0]
-    cos_scores = cos_scores.cpu()
-    # 아래 숫자 수정해서 거르기
-    for i in cos_scores:
-        if i > 0.6:
-            top_k += 1
-    # score 높은 순으로 정렬
-    top_results = np.argpartition(-cos_scores, range(top_k))[0:top_k]
-    searchResult = []
-    # 전달용 배열 생성
-    for idx in top_results[0:top_k]:
-        searchResult.append([corpus[idx].strip(),corpusLabel[idx][1]])
-    return searchResult
+#이름 검색 (검색 할거면 주석 제거)
+# def titleSearch(input):
+#     # 변수 설정
+#     corpusLabel = []
+#     corpus = []
+#     top_k = 0
+#     teaserObjects = Board.objects.all().values()
+#     commObjects = Community.objects.all().values()
+#     for i in [teaserObjects,commObjects]:
+#         for j in i:
+#             corpusLabel.append([j['Title'],j['Category']])
+#             corpus.append(j['Title'])
+#
+#     # KoBert 모델을 사용하여 문장 수치화
+#     queryEmbedding = HomepageConfig.embedder.encode(input, convert_to_tensor=True)
+#     corpusEmbeddings = HomepageConfig.embedder.encode(corpus, convert_to_tensor=True)
+#
+#     # 코사인 유사도 검사
+#     cos_scores = util.pytorch_cos_sim(queryEmbedding, corpusEmbeddings)[0]
+#     cos_scores = cos_scores.cpu()
+#     # 아래 숫자 수정해서 거르기
+#     for i in cos_scores:
+#         if i > 0.6:
+#             top_k += 1
+#     # score 높은 순으로 정렬
+#     top_results = np.argpartition(-cos_scores, range(top_k))[0:top_k]
+#     searchResult = []
+#     # 전달용 배열 생성
+#     for idx in top_results[0:top_k]:
+#         searchResult.append([corpus[idx].strip(),corpusLabel[idx][1]])
+#     return searchResult
