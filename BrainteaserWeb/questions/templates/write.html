@@ -1,5 +1,5 @@
 {%load static%}
-DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -8,38 +8,46 @@ DOCTYPE html>
     <link rel="stylesheet" href='{% static "css/css.css"%}'>
 </head>
 <body>
+<script>
+        function back(){
+        window.history.back()}
+
+        function submit(){form.submit();}
+    </script>
     <div class="board_wrap">
         <div class="board_title">
             <strong>공지사항</strong>
             <p>공지사항을 빠르고 정확하게 안내해드립니다.</p>
         </div>
+        <form method="POST" name="form">
         <div class="board_write_wrap">
             <div class="board_write">
                 <div class="title">
                     <dl>
                         <dt>제목</dt>
-                        <dd><input type="text" placeholder="제목 입력"></dd>
+                        <dd><input type="text" placeholder="제목 입력" name = "title"></dd>
                     </dl>
                 </div>
                 <div class="info">
                     <dl>
                         <dt>글쓴이</dt>
-                        <dd><input type="text" placeholder="글쓴이 입력"></dd>
+                        <dd>{{request.session.username}}<dd>
                     </dl>
                     <dl>
-                        <dt>비밀번호</dt>
-                        <dd><input type="password" placeholder="비밀번호 입력"></dd>
+                        <dt>게시판</dt>
+                        <dd>{{category}}</dd>
                     </dl>
                 </div>
                 <div class="cont">
-                    <textarea placeholder="내용 입력"></textarea>
+                    <textarea placeholder="내용 입력" name="text1"></textarea>
                 </div>
             </div>
             <div class="bt_wrap">
-                <a href="view.html" class="on">등록</a>
-                <a href="list.html">취소</a>
+                <a href="javascript:submit();" class='on'>등록</a>
+                <a href="javascript:back();">취소</a>
             </div>
         </div>
+        </form>
     </div>
 </body>
 </html>

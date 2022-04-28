@@ -5,6 +5,7 @@ from .models import Board, BoardContents, TeaserAnswer, FinalAnswer
 from django.core.paginator import Paginator
 from .forms import answerForm
 import datetime
+from django.db.models import Count
 # Create your views here.
 
 
@@ -64,9 +65,23 @@ def edit(request, t, p):
             return render(request, 'edit.html', {'bdc': board_Contents, 'category':t})
 
 
-def write(request):
-    return render(request, 'write.html')
-
+def write(request,t):
+    category = {'it': 'Category1', 'economics': 'Category2', 'casual': 'Category3'}
+    key = Board.objects.count()
+    print(key)
+    if request.method == 'POST':
+        board_Contents = Board()
+        board_Contents.TeaserID = key + 1
+        board_Contents.Title = request.POST['title']
+        board_Contents.Category = category[t]
+        board_Contents.Teaser = request.POST.get('text1', True)
+        board_Contents.AccID = request.session.get('username')
+        board_Contents.Date = datetime.datetime.now()
+        board_Contents.Clicked = int(0)
+        board_Contents.save()
+        return redirect('/questions/' + t + '/')
+    else:
+        return render(request, 'write.html', {'category': t})
 
 # 조회수 +1
 def clickedUp(contents, p):
