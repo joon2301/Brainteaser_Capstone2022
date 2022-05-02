@@ -12,7 +12,18 @@
         function back(){
         window.history.back()}
 
-        function submit(){form.submit();}
+        function submit(){
+        var title = document.getElementById('title');
+        var text = document.getElementById('text');
+
+            if(title.value == '' || title.value == null ||text.value == '' || text.value == null){
+            alert('제목 또는 본문이 공백입니다.');
+            return false;
+            }
+            else{
+            form.submit();
+            }
+        }
     </script>
     <div class="board_wrap">
         <div class="board_title">
@@ -25,7 +36,7 @@
                 <div class="title">
                     <dl>
                         <dt>제목</dt>
-                        <dd><input type="text" placeholder="제목 입력" name = "title"></dd>
+                        <dd><input type="text" placeholder="제목 입력" name = "title" id = "title"></dd>
                     </dl>
                 </div>
                 <div class="info">
@@ -39,7 +50,7 @@
                     </dl>
                 </div>
                 <div class="cont">
-                    <textarea placeholder="내용 입력" name="text1"></textarea>
+                    <textarea placeholder="내용 입력" name="text1" id = "text"></textarea>
                 </div>
             </div>
             <div class="bt_wrap">
