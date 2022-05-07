@@ -10,14 +10,21 @@
 <body>
 <script>
         function back(){
-        window.history.back()}
-
-        function submit(){form.submit();}
+            window.history.back()
+        }
+        function submit(){
+            form.submit();
+        }
+        function openWindowPop(url, name){
+            window.name = 'parentForm';
+            var options = 'top=10, left=10, width=500, height=300, status=no, menubar=no, toolbar=no, resizable=no';
+            window.open(url, name, options);
+        }
     </script>
     <div class="board_wrap">
         <div class="board_title">
-            <strong>공지사항</strong>
-            <p>공지사항을 빠르고 정확하게 안내해드립니다.</p>
+            <strong>게시물 작성</strong>
+            <p></p><a id='confirm'>등록 버튼을 눌러서 제목 검증을 진행됩니다. 검증이 진행된 후 제목 수정은 불가능합니다.</a></p>
         </div>
         <form method="POST" name="form">
         <div class="board_write_wrap">
@@ -25,7 +32,7 @@
                 <div class="title">
                     <dl>
                         <dt>제목</dt>
-                        <dd><input type="text" placeholder="제목 입력" name = "title"></dd>
+                        <dd><input type="text" placeholder="제목 입력" name = "title" id="title"></dd>
                     </dl>
                 </div>
                 <div class="info">
@@ -39,11 +46,23 @@
                     </dl>
                 </div>
                 <div class="cont">
-                    <textarea placeholder="내용 입력" name="text1"></textarea>
+                    <textarea placeholder="내용 입력" name="text1" id="cont"></textarea>
                 </div>
             </div>
             <div class="bt_wrap">
-                <a href="javascript:submit();" class='on'>등록</a>
+                <a href="#" onclick="register()" class='on'>등록</a>
+                <script>
+                    function register(){
+                        if(document.getElementById('confirm').value == 'confirmed'){
+                            form.submit();
+                        }else{
+                            var popUp = openWindowPop('/questions/{{category}}/write/test='+document.getElementById('title').value, 'title test');
+                            popUp.onbeforeunload = function(){
+                                console.log("Closed");
+                            };
+                        }
+                    }
+                </script>
                 <a href="javascript:back();">취소</a>
             </div>
         </div>

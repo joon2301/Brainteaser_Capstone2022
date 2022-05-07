@@ -1,0 +1,40 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        title = opener.document.getElementById('title').value;
+    </script>
+    <link rel="stylesheet" href='{% static "css/css.css"%}'>
+</head>
+<body>
+    <div class="board_wrap">
+        <div class="board_title">
+            <script>
+                document.write('<strong>'+title+'와 비슷한 게시물 목록 3가지: </strong>');
+            </script>
+        </div>
+        <div class="board_write_wrap">
+            <div class="info">
+            {% for content in contents %}
+                <p>Title: {{content.0}}, Board: {{content.1}}</p>
+            {% endfor %}
+            </div>
+            <div class="bt_wrap">
+                <p>게시글을 추가 하시겠습니까?</p>
+                <a href="#" onclick="confirm()" class='on'>사용</a>
+                <script>
+                    function confirm(){
+                        window.opener.document.getElementById('confirm').value = 'confirmed';
+                        window.opener.document.getElementById('title').readOnly = true;
+                        window.close();
+                    }
+                </script>
+                <a href="javascript:close();">취소</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
