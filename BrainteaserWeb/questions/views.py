@@ -23,7 +23,7 @@ def list(request,t):
     boards = Board.objects
     category = {'it':'category1','economics':'category2','casual':'category3'}
     print(category[t])
-    boardList = Board.objects.filter(Category=category[t])
+    boardList = Board.objects.filter(Category=category[t]).order_by('-Date')
     paginator = Paginator(boardList, '5')
     page = request.GET.get('page', 1)
     posts = paginator.page(page)

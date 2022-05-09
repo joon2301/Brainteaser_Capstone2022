@@ -6,21 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>공지사항</title>
     <link rel="stylesheet" href='{% static "css/css.css"%}'>
-</head>
-<body>
-<script>
+    <script>
         function back(){
-            window.history.back()
-        }
+            window.history.back()}
         function submit(){
             form.submit();
         }
         function openWindowPop(url, name){
-            window.name = 'parentForm';
-            var options = 'top=10, left=10, width=500, height=300, status=no, menubar=no, toolbar=no, resizable=no';
-            window.open(url, name, options);
+            var title = document.getElementById('title');
+            var text = document.getElementById('text');
+            if(title.value == '' || title.value == null || text.value == '' || text.value == null){
+                alert('제목 또는 본문이 공백입니다.');
+                return false;
+            }else{
+                window.name = 'parentForm';
+                var options = 'top=10, left=10, width=500, height=300, status=no, menubar=no, toolbar=no, resizable=no';
+                window.open(url, name, options);
+            }
         }
     </script>
+</head>
+<body>
+
     <div class="board_wrap">
         <div class="board_title">
             <strong>게시물 작성</strong>
@@ -46,7 +53,7 @@
                     </dl>
                 </div>
                 <div class="cont">
-                    <textarea placeholder="내용 입력" name="text1" id="cont"></textarea>
+                    <textarea placeholder="내용 입력" name="text1" id="text"></textarea>
                 </div>
             </div>
             <div class="bt_wrap">
