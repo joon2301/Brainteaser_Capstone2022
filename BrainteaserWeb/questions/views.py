@@ -78,7 +78,7 @@ def delete(request,t,p):
             cursor.execute("delete from brainTeaser where TeaserID = %d;" % p)
         except:
             print('error')
-    return list(request,t)
+    return redirect('list',t)
 
 
 def write(request,t):
