@@ -138,6 +138,7 @@ def clickedUp(contents, p):
             cursor.execute("update brainTeaser set Clicked = %d where teaserID = %d" % (clicked, p))
         except:
             print('error')
+            print(1)
 
 
 # 댓글 추가

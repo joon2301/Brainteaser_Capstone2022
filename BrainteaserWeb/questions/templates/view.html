@@ -10,6 +10,7 @@
     <script>
         var currAcc = '{{request.session.username}}';
         console.log(currAcc);
+        var category = document.location.href.split('/')[4];
     </script>
 </head>
 <body>
@@ -113,7 +114,13 @@
                 </section>
 
             <div class="bt_wrap">
-                <a href="javascript:jumplist();" class="on">목록</a>
+                <a href="#" onclick="lists()" class="on">목록</a>
+                <script>
+                    function lists(){
+                        console.log(category);
+                        window.location.href = "/questions/"+category;
+                    }
+                </script>
                 <script> document.write(`<a href="post=${contents[1]}/edit">수정</a>`); </script>
 
             </div>
