@@ -10,11 +10,19 @@
     <script>
         var currAcc = '{{request.session.username}}';
         console.log(currAcc);
+        var category = document.location.href.split('/')[4];
     </script>
 </head>
 <body>
     <script>
         const contents = {{boardContents|safe}}
+
+        function jumplist(){
+        var url = window.location.href;
+        var pars = url.split('/');
+        location.href = pars[0] + '//' + pars[2] + '/' + pars[3] + '/' + pars[4];
+        }
+
     </script>
     <div class="board_wrap">
         <div class="board_title">
@@ -106,7 +114,13 @@
                 </section>
 
             <div class="bt_wrap">
-                <a href="list.html" class="on">목록</a>
+                <a href="#" onclick="lists()" class="on">목록</a>
+                <script>
+                    function lists(){
+                        console.log(category);
+                        window.location.href = "/questions/"+category;
+                    }
+                </script>
                 <script> document.write(`<a href="post=${contents[1]}/edit">수정</a>`); </script>
 
             </div>

@@ -1,3 +1,4 @@
+import numpy as np
 from django.db import connection
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -5,18 +6,24 @@ from .models import Board, BoardContents, TeaserAnswer, FinalAnswer
 from django.core.paginator import Paginator
 from .forms import answerForm
 import datetime
+
 from django.db.models import Max
+
+from sentence_transformers import util
 
 
 # Create your views here.
 
 
 # 게시글 리스트 보기
+
+
+
 def list(request,t):
     boards = Board.objects
     category = {'it':'category1','economics':'category2','casual':'category3'}
     print(category[t])
-    boardList = Board.objects.filter(Category=category[t])
+    boardList = Board.objects.filter(Category=category[t]).order_by('-Date')
     paginator = Paginator(boardList, '5')
     page = request.GET.get('page', 1)
     posts = paginator.page(page)
@@ -85,6 +92,44 @@ def write(request,t):
     else:
         return render(request, 'write.html', {'category': t})
 
+
+def titleTest(request, t, test):
+    result = titleSearch(test)
+    print(result)
+    return render(request, 'titleTest.html', {'contents': result})
+
+
+#이름 검색 (검색 할거면 주석 제거)
+def titleSearch(input):
+    from .apps import ThemeConfig
+    from .models import Community
+    # 변수 설정
+    corpusLabel = []
+    corpus = []
+    top_k = 3
+    teaserObjects = Board.objects.all().values()
+    commObjects = Community.objects.all().values()
+    for i in [teaserObjects,commObjects]:
+        for j in i:
+            corpusLabel.append([j['Title'],j['Category']])
+            corpus.append(j['Title'])
+
+    # KoBert 모델을 사용하여 문장 수치화
+    queryEmbedding = ThemeConfig.embedder.encode(input, convert_to_tensor=True)
+    corpusEmbeddings = ThemeConfig.embedder.encode(corpus, convert_to_tensor=True)
+
+    # 코사인 유사도 검사
+    cos_scores = util.pytorch_cos_sim(queryEmbedding, corpusEmbeddings)[0]
+    cos_scores = cos_scores.cpu()
+    # score 높은 순으로 정렬
+    top_results = np.argpartition(-cos_scores, range(top_k))[0:top_k]
+    searchResult = []
+    # 전달용 배열 생성
+    for idx in top_results[0:top_k]:
+        searchResult.append([corpus[idx].strip(),corpusLabel[idx][1]])
+    return searchResult
+
+
 # 조회수 +1
 def clickedUp(contents, p):
     with connection.cursor() as cursor:
@@ -93,6 +138,7 @@ def clickedUp(contents, p):
             cursor.execute("update brainTeaser set Clicked = %d where teaserID = %d" % (clicked, p))
         except:
             print('error')
+            print(1)
 
 
 # 댓글 추가
