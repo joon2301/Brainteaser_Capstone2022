@@ -8,17 +8,12 @@ from .forms import answerForm
 import datetime
 
 from django.db.models import Max
-
 from sentence_transformers import util
-
 
 # Create your views here.
 
 
 # 게시글 리스트 보기
-
-
-
 def list(request,t):
     boards = Board.objects
     category = {'it':'category1','economics':'category2','casual':'category3'}
@@ -72,6 +67,18 @@ def edit(request, t, p):
 
         else:
             return render(request, 'edit.html', {'bdc': board_Contents, 'category':t})
+
+# 삭제
+def delete(request,t,p):
+    print('post:', p)
+    with connection.cursor() as cursor:
+        try:
+            cursor.execute("delete from Answer_User_Likes where AnswerID in (select AnswerID from teaserAnswer where TeaserID = %d);" % p)
+            cursor.execute("delete from teaserAnswer where TeaserID = %d;" % p)
+            cursor.execute("delete from brainTeaser where TeaserID = %d;" % p)
+        except:
+            print('error')
+    return list(request,t)
 
 
 def write(request,t):

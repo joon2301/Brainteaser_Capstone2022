@@ -213,7 +213,17 @@
                     }
                 </script>
                 <script> document.write(`<a href="post=${contents[1]}/edit">수정</a>`); </script>
-
+                 <a type='Button' onclick='delPost()' class="fw-bold">삭제</a>
+                    <script>
+                        function delPost(){
+                          var res = confirm('게시글을 정말로 삭제하시겠습니까?');
+                          if(res){
+                            window.location.href = `post=${contents[1]}/del`
+                            alert("성공적으로 삭제되었습니다.");
+                            window.location.href = "/questions/"+category;
+                          }
+                        }
+                    </script>
             </div>
         </div>
     </div>
