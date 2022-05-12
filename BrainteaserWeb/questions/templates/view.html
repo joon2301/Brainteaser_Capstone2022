@@ -8,6 +8,7 @@
     <link rel="stylesheet" href='{% static "css/css.css"%}'>
     <link rel="stylesheet" href='{% static "css/styles2.css"%}'>
     <link rel="stylesheet" href='{% static "css/styles.css"%}'>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script>
         var currAcc = '{{request.session.username}}';
         console.log(currAcc);
@@ -143,7 +144,7 @@
                         <dd>{{boardContents.Clicked}}</dd>
                     </dl>
                 </div>
-                <div class="cont"> {{boardContents.Teaser}}</div>
+                <div class="cont" style="white-space:pre"> {{boardContents.Teaser}}</div>
 
 
                 <section class="mb-5">
