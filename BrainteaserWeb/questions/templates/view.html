@@ -123,28 +123,27 @@
    
         <div class="board_view_wrap">
             <div class="board_view"> 
-            <script> document.write(`<div class ="title" > ${contents[0]}  </div>`)</script>
-            <script>  document.write(`<div class="info"> 
+            <div class ="title" > {{boardContents.Title}}  </div>
+            <div class="info">
                     <dl>
                         <dt>번호</dt>
-                        <dd> ${contents[1]}</dd>
+                        <dd> {{boardContents.TeaserID}}</dd>
                     </dl>
                     </dl>
                     <dl>
                         <dt>글쓴이</dt>
-                        <dd> ${contents[2]}</dd>
+                        <dd> {{boardContents.AccID}}</dd>
                     </dl>
                     <dl>
                         <dt>작성일</dt>
-                        <dd> ${contents[3]}</dd>
+                        <dd> {{boardContents.Date}}</dd>
                     </dl>
                     <dl>
                         <dt>조회</dt>
-                        <dd>${contents[4]}</dd>
+                        <dd>{{boardContents.Clicked}}</dd>
                     </dl>
-                </div>`)
-            </script>
-            <script> document.write(`<div class="cont"> ${contents[5]}</div>`) </script>
+                </div>
+                <div class="cont"> {{boardContents.Teaser}}</div>
 
 
                 <section class="mb-5">

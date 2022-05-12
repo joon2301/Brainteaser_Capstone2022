@@ -49,16 +49,14 @@ def view(request, t, p):
             addComment(request.session.get('username'), p, userAns)
 
     return render(request, 'view.html', {
-        "boardContents": contents,
+        "boardContents": boardContents,
         'teaserAns': answers,
         'answerForm': answerForm,
     })
 
 
 def edit(request, t, p):
-        print(p)
         board_Contents = BoardContents.objects.get(TeaserID=p)
-
         if request.method == "POST":
             board_Contents.Title = request.POST['title']
             board_Contents.Teaser = request.POST['text']
@@ -157,6 +155,7 @@ def addComment(AccID, TeaserID, Answer):
         try:
             cursor.execute('insert into teaserAnswer values(%d,"%s",%d,"%s","%s")' % (
             AnwerID, AccID, TeaserID, Answer, now.strftime('%Y-%m-%d %H:%M:%S') ))
+            simAnswer(Answer,TeaserID)
         except:
             print('error')
 
@@ -208,3 +207,32 @@ def likeAnswer(request,t,p,c):
             print('error')
 
     return redirect('view',t,p)
+
+
+def simAnswer(input,teaser):
+    from .apps import ThemeConfig
+    from .models import FinalAnswer
+    # 변수 설정
+    corpus = []
+    top_k = 2
+    comObjects = FinalAnswer.objects.filter(TeaserID = teaser).values('AnswerID','Answer')
+    print(comObjects)
+    print(123)
+    for i in comObjects:
+        corpus.append(i['Answer'])
+
+    # KoBert 모델을 사용하여 문장 수치화
+    queryEmbedding = ThemeConfig.embedder.encode(input, convert_to_tensor=True)
+    corpusEmbeddings = ThemeConfig.embedder.encode(corpus, convert_to_tensor=True)
+
+    # 코사인 유사도 검사
+    cos_scores = util.pytorch_cos_sim(queryEmbedding, corpusEmbeddings)[0]
+    cos_scores = cos_scores.cpu()
+    # score 높은 순으로 정렬
+    top_results = np.argpartition(-cos_scores, range(top_k))[0:top_k]
+    simResult = []
+    # 전달용 배열 생성
+    for idx in top_results[0:top_k]:
+        simResult.append([corpus[idx].strip(), comObjects[idx][0]])
+    print(simResult)
+    return simResult

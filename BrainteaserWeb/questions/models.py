@@ -57,6 +57,7 @@ class FinalAnswer(models.Model):
     class Meta:
         db_table = "final_Answer"
 
+
 class Community(models.Model):
     PostID = models.IntegerField(verbose_name="번호", primary_key=True)
     Title = models.CharField(max_length=50, verbose_name="제목")
