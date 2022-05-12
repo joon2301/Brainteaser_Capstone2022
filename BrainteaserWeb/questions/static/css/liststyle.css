@@ -4,7 +4,7 @@
 }
 
 html {
-    font-size: 10px;
+    font-size: 16px;
 }
 
 ul, li {
@@ -26,12 +26,12 @@ a {
 }
 
 .board_title strong {
-    font-size: 3rem;
+    font-size: 2rem;
 }
 
 .board_title p {
     margin-top: 5px;
-    font-size: 1.4rem;
+    font-size: 1.0rem;
 }
 
 .bt_wrap {
@@ -47,7 +47,7 @@ a {
     padding: 10px;
     border: 1px solid #000;
     border-radius: 2px;
-    font-size: 1.4rem;
+    font-size: 1.0rem;
 }
 
 .bt_wrap a:first-child {
@@ -81,7 +81,7 @@ a {
     display: inline-block;
     padding: 15px 0;
     text-align: center;
-    font-size: 1.4rem;
+    font-size: 1.0rem;
 }
 
 .board_list > div.top > div {
@@ -131,14 +131,14 @@ a {
 }
 
 .board_page a.bt {
-    padding-top: 10px;
-    font-size: 1.2rem;
+    padding-top: 6px;
+    font-size: 1.0rem;
     letter-spacing: -1px;
 }
 
 .board_page a.num {
-    padding-top: 9px;
-    font-size: 1.4rem;
+    padding-top: 7px;
+    font-size: 1.0rem;
 }
 
 .board_page a.num.on {
@@ -159,7 +159,7 @@ a {
 .board_view .title {
     padding: 20px 15px;
     border-bottom: 1px dashed #ddd;
-    font-size: 2rem;
+    font-size: 1rem;
 }
 
 .board_view .info {
@@ -196,12 +196,10 @@ a {
 .board_view .info dl dt,
 .board_view .info dl dd {
     display: inline-block;
-    font-size: 1.4rem;
+    font-size: 1.0rem;
 }
 
-.board_view .info dl dt {
 
-}
 
 .board_view .info dl dd {
     margin-left: 10px;
@@ -212,16 +210,16 @@ a {
     padding: 15px;
     border-bottom: 1px solid #000;
     line-height: 160%;
-    font-size: 1.4rem;
+    font-size: 1.0rem;
 }
 
 .board_write {
-    border-top: 2px solid #000;
+    border-top: 3px solid #000;
 }
 
 .board_write .title,
 .board_write .info {
-    padding: 15px;
+    padding: 10px;
 }
 
 .board_write .info {
@@ -246,7 +244,7 @@ a {
 .board_write .info dd {
     display: inline-block;
     vertical-align: middle;
-    font-size: 1.4rem;
+    font-size: 1.0rem;
 }
 
 .board_write .title dt,
@@ -277,7 +275,7 @@ a {
     display: block;
     width: 100%;
     height: 300px;
-    padding: 15px;
+    padding: 10px;
     box-sizing: border-box;
     border: 0;
     resize: vertical;

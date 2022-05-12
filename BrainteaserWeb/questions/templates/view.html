@@ -37,7 +37,7 @@
                 <button class="btn btn-primary" id="btnNavbarSearch" type="button" onclick="search()" ></button>
                 <script>
                     function search(){
-                        window.location.href = "search="+document.getElementById('search-input').value.trim()
+                        location.href = "/search="+document.getElementById('search-input').value.trim()
                     }
                 </script>
             </div>
@@ -61,7 +61,7 @@
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading">문제은행</div>
-                        <a class="nav-link" href="">
+                        <a class="nav-link" href="/index">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Questions
                         </a>
