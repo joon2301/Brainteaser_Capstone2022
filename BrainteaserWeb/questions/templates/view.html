@@ -16,16 +16,6 @@
     </script>
 </head>
 <body>
-    <script>
-        const contents = {{boardContents|safe}}
-
-        function jumplist(){
-        var url = window.location.href;
-        var pars = url.split('/');
-        location.href = pars[0] + '//' + pars[2] + '/' + pars[3] + '/' + pars[4];
-        }
-
-    </script>
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
         <a class="navbar-brand ps-3" href="/">Brainteaser</a>
@@ -51,7 +41,7 @@
                     <li><a class="dropdown-item" href="#!">MyPage</a></li>
                     
                     <li><hr class="dropdown-divider" /></li>
-                    <li><a class="dropdown-item" href="logout">Logout</a></li>
+                    <li><a class="dropdown-item" href="/logout">Logout</a></li>
                 </ul>
             </li>
         </ul>
@@ -111,7 +101,7 @@
                 </div>
                 <div class="sb-sidenav-footer">
                     <div class="small">Logged in as:</div>
-                    Start Brainteaser
+                    {{request.session.username}}
                 </div>
             </nav>
         </div>
@@ -144,7 +134,7 @@
                         <dd>{{boardContents.Clicked}}</dd>
                     </dl>
                 </div>
-                <div class="cont" style="white-space:pre"> {{boardContents.Teaser}}</div>
+                <div class="cont" style="white-space:pre">{{boardContents.Teaser}}</div>
 
 
                 <section class="mb-5">
@@ -153,7 +143,8 @@
                             <!-- Comment form-->
                             <form class="mb-4" method = "POST">
                                 {{answerForm}}
-                                <input type="submit" value="입력">
+                                <input onclick="simComment()" type="submit" value="입력">
+
                             </form>
                             <!-- Comment with nested comments-->
                             {% for ans in teaserAns %}
@@ -165,8 +156,8 @@
                                         <a type="button" onclick="edit()" class="fw-bold">수정</a>
                                         <script>
                                             function edit(){
-                                                window.open("post={{ans.TeaserID}}/comment={{ans.AnswerID}}/edit","댓글편집",
-                                                    "width=500, height=190");
+                                                window.open("post={{ans.TeaserID}}/comment={{ans.AnswerID}}/edit",
+                                                "댓글편집", "width=500, height=190");
                                                 }
                                         </script>
                                         <a class="fw-bold">/</a>
@@ -182,24 +173,33 @@
                                               }
                                             }
                                         </script>
+                                        <a class="fw-bold">/</a>
+                                        <a type='button' onclick="simQNA()" class="fw-bold">비교</a>
+                                        <script>
+                                            function simQNA(){
+                                                window.open("post={{ans.TeaserID}}/comment={{ans.AnswerID}}/sim",
+                                                "유사한 댓글", "width=500, height=500");
+                                            }
+                                        </script>
                                     </div>
                                     <div> {{ans.Answer}} </div>
 
-                                {% else %}
-                                <div class="ms-3">
-                                    <div class="fw-bold">{{ans.AccID}}</div>
-                                    <div> {{ans.Answer}} </div>
-                                {% endif %}
-
-                                <a href="post={{ans.TeaserID}}/comment={{ans.AnswerID}}/like"> 추천</a>
-                                    {% if ans.Likes == None %}
-                                        <a>: 0</a>
                                     {% else %}
-                                        <a>: {{ans.Likes}}</a>
+                                    <div class="ms-3">
+                                        <div class="fw-bold">{{ans.AccID}}</div>
+                                        <div> {{ans.Answer}} </div>
                                     {% endif %}
+
+                                    <a href="post={{ans.TeaserID}}/comment={{ans.AnswerID}}/like"> 추천</a>
+                                        {% if ans.Likes == None %}
+                                            <a>: 0</a>
+                                        {% else %}
+                                            <a>: {{ans.Likes}}</a>
+                                        {% endif %}
+                                    </div>
                                 </div>
-                            </div>
                             {% endfor %}
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -226,10 +226,12 @@
                               }
                             }
                         </script>
-                {% endif %}
+                            {% endif %}
+            </div>
+            </div>
             </div>
         </div>
     </div>
-
+    </div>
 </body>
 </html>

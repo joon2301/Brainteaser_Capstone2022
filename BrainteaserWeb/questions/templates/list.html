@@ -35,7 +35,7 @@
                     <li><a class="dropdown-item" href="#!">MyPage</a></li>
                     
                     <li><hr class="dropdown-divider" /></li>
-                    <li><a class="dropdown-item" href="logout">Logout</a></li>
+                    <li><a class="dropdown-item" href="/logout">Logout</a></li>
                 </ul>
             </li>
         </ul>
@@ -95,7 +95,7 @@
                 </div>
                 <div class="sb-sidenav-footer">
                     <div class="small">Logged in as:</div>
-                    Start Brainteaser
+                    {{request.session.username}}
                 </div>
             </nav>
         </div>

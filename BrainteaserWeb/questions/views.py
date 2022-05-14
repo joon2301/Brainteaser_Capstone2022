@@ -155,7 +155,7 @@ def addComment(AccID, TeaserID, Answer):
         try:
             cursor.execute('insert into teaserAnswer values(%d,"%s",%d,"%s","%s")' % (
             AnwerID, AccID, TeaserID, Answer, now.strftime('%Y-%m-%d %H:%M:%S') ))
-            simAnswer(Answer,TeaserID)
+
         except:
             print('error')
 
@@ -167,7 +167,7 @@ def delComment(request, t, p, c):
             cursor.execute("delete from teaserAnswer where TeaserID = %d AND AnswerID = %d;"%(p,c))
         except:
             print('error')
-    return view(request,p)
+    return redirect('view',t,p)
 
 # 댓글 수정
 def editComment(request,t,p,c):
@@ -208,31 +208,59 @@ def likeAnswer(request,t,p,c):
 
     return redirect('view',t,p)
 
+#댓글 유사도 페이즈
+def simAnswer(request,t,p,c):
+    print(c)
+    try:
+        sim = []
+        unsim = []
+        answers = FinalAnswer.objects.filter(AnswerID=c).values('Answer')[0]
+        simTmp,unsimTmp = commentSearch(answers['Answer'], p)
+        for i in simTmp:
+            sim.append(FinalAnswer.objects.filter(Answer=i).values('AccID','Answer')[0])
+        for i in unsimTmp:
+            unsim.append(FinalAnswer.objects.filter(Answer=i).values('AccID','Answer')[0])
+    except:
+        print('error')
 
-def simAnswer(input,teaser):
+    return render(request, 'simAns.html' , {
+        'sim':sim,
+        'unsim':unsim
+    })
+
+
+#댓글 유사도
+def commentSearch(input,teaser):
     from .apps import ThemeConfig
     from .models import FinalAnswer
     # 변수 설정
     corpus = []
     top_k = 2
     comObjects = FinalAnswer.objects.filter(TeaserID = teaser).values('AnswerID','Answer')
-    print(comObjects)
-    print(123)
     for i in comObjects:
         corpus.append(i['Answer'])
-
     # KoBert 모델을 사용하여 문장 수치화
     queryEmbedding = ThemeConfig.embedder.encode(input, convert_to_tensor=True)
     corpusEmbeddings = ThemeConfig.embedder.encode(corpus, convert_to_tensor=True)
-
     # 코사인 유사도 검사
     cos_scores = util.pytorch_cos_sim(queryEmbedding, corpusEmbeddings)[0]
     cos_scores = cos_scores.cpu()
     # score 높은 순으로 정렬
-    top_results = np.argpartition(-cos_scores, range(top_k))[0:top_k]
+    top_results = np.argpartition(-cos_scores, range(len(corpus)))[0:len(corpus)]
     simResult = []
+    unsimResult = []
+    print('=========')
+    print(corpus)
+    print(cos_scores)
+    print(top_results)
+    print('=========')
     # 전달용 배열 생성
-    for idx in top_results[0:top_k]:
-        simResult.append([corpus[idx].strip(), comObjects[idx][0]])
+    if len(corpus)<top_k:
+        top_k = len(corpus)
+    for idx in top_results[1:top_k+1]:
+        simResult.append(corpus[idx])
+    for idx in top_results[len(corpus)-top_k:len(corpus)]:
+        unsimResult.append(corpus[idx])
     print(simResult)
-    return simResult
+    print(unsimResult)
+    return simResult, unsimResult

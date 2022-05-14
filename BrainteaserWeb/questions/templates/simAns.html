@@ -6,6 +6,15 @@
     <title>Title</title>
 </head>
 <body>
-
+    <div>
+        <p> 유사: </p>
+        {% for data in sim %}
+        <p>{{data.AccID}}: {{data.Answer}}</p>
+        {% endfor %}
+        <p>다름:</p>
+        {% for data in unsim %}
+        <p>{{data.AccID}}: {{data.Answer}}</p>
+        {% endfor %}
+    </div>
 </body>
 </html>

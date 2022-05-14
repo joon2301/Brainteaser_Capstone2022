@@ -10,5 +10,6 @@ class answerForm(ModelForm):
                'class': 'form-control',
                 'rows': '3',
                 'placeholder': '답안을 입력 해주세요!',
+                'required': True,
             }),
         }
