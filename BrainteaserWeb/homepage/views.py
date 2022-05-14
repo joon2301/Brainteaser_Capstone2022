@@ -63,7 +63,7 @@ def titleSearch(input):
     cos_scores = cos_scores.cpu()
     # 아래 숫자 수정해서 거르기
     for i in cos_scores:
-        if i > 0.5:
+        if i > 0.32:
             top_k += 1
     # score 높은 순으로 정렬
     top_results = np.argpartition(-cos_scores, range(top_k))[0:top_k]
