@@ -164,6 +164,7 @@ def delComment(request, t, p, c):
     print('post:', p, 'answerID:', c)
     with connection.cursor() as cursor:
         try:
+            cursor.execute("delete from Answer_User_Likes where AnswerID = %d;" % (c))
             cursor.execute("delete from teaserAnswer where TeaserID = %d AND AnswerID = %d;"%(p,c))
         except:
             print('error')
