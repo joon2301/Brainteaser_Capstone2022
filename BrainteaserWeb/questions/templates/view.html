@@ -152,7 +152,7 @@
                             {% for ans in teaserAns %}
                             <div class="d-flex mb-4">
                                 <!-- Parent comment-->
-                                {% if request.session.username == ans.AccID %}
+                             {% if request.session.username == ans.AccID %}
                                 <div class="ms-3">
                                     <div class="fw-bold">{{ans.AccID}}
                                         <a type="button" onclick="edit()" class="fw-bold">수정</a>
