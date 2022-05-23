@@ -10,6 +10,6 @@ class HomepageConfig(AppConfig):
     # embedder = SentenceTransformer("jhgan/ko-sbert-nli")
 
     # 50% https://huggingface.co/jhgan/ko-sbert-sts
-    embedder = SentenceTransformer("jhgan/ko-sbert-sts")
+    # embedder = SentenceTransformer("jhgan/ko-sbert-sts")
     name = 'homepage'
 

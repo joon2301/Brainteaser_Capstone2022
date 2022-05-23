@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .models import Board, BoardContents, TeaserAnswer, FinalAnswer
 from django.core.paginator import Paginator
-from .forms import answerForm
+from .forms import answerForm,answerChildForm
 import datetime
 
 from django.db.models import Max
@@ -46,12 +46,14 @@ def view(request, t, p):
         comment = answerForm(request.POST)
         if comment.is_valid():
             userAns = comment.cleaned_data['Answer']
-            addComment(request.session.get('username'), p, userAns)
+            addComment(request.session.get('username'), p, userAns, 0)
+
 
     return render(request, 'view.html', {
         "boardContents": boardContents,
         'teaserAns': answers,
         'answerForm': answerForm,
+        'answerChildForm': answerChildForm,
     })
 
 
@@ -147,14 +149,14 @@ def clickedUp(contents, p):
 
 
 # 댓글 추가
-def addComment(AccID, TeaserID, Answer):
+def addComment(AccID, TeaserID, Answer, PID):
     with connection.cursor() as cursor:
         cursor.execute("select MAX(AnswerID) from teaserAnswer")
         AnwerID = cursor.fetchall()[0][0] + 1
         now = datetime.datetime.now()
         try:
-            cursor.execute('insert into teaserAnswer values(%d,"%s",%d,"%s","%s")' % (
-            AnwerID, AccID, TeaserID, Answer, now.strftime('%Y-%m-%d %H:%M:%S') ))
+            cursor.execute('insert into teaserAnswer values(%d,"%s",%d,"%s","%s", "%d")' % (
+            AnwerID, AccID, TeaserID, Answer, now.strftime('%Y-%m-%d %H:%M:%S'), PID ))
 
         except:
             print('error')
