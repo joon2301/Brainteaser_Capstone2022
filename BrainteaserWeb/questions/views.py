@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .models import Board, BoardContents, TeaserAnswer, FinalAnswer
 from django.core.paginator import Paginator
+from django.urls import reverse
 from .forms import answerForm,answerChildForm
 import datetime
 
@@ -35,26 +36,40 @@ def view(request, t, p):
     contents = str(boardContents).split(',')
     # 게시글 댓글 가져오기
     try:
-        answers = FinalAnswer.objects.filter(TeaserID=p).order_by('-Likes')
+        parentAnswers = FinalAnswer.objects.filter(TeaserID=p).order_by('-Likes')
+        #childAnswers = FinalAnswer.objects.filter(TeaserID=p).exclude(ParentID=0)
     except:
         print('댓글이 없는데요?')
         answers = None
     # 조회수 +1
+    print(parentAnswers)
+    #print(childAnswers)
     clickedUp(contents, p)
-    # 댓글 달기
-    if request.method == 'POST':
-        comment = answerForm(request.POST)
-        if comment.is_valid():
-            userAns = comment.cleaned_data['Answer']
-            addComment(request.session.get('username'), p, userAns, 0)
-
 
     return render(request, 'view.html', {
         "boardContents": boardContents,
-        'teaserAns': answers,
+        'teaserAns': parentAnswers,
         'answerForm': answerForm,
         'answerChildForm': answerChildForm,
     })
+
+
+def childAns(request,t,p,c):
+    print('child:',c)
+    if request.method == 'POST':
+        form = answerChildForm(request.POST)
+        userAns = request.POST.get('Answer')
+    print(userAns)
+    addComment(request.session.get('username'), p, userAns, c)
+    return redirect(reverse('view',args=[t,p]))
+
+
+def parentAns(request,t,p):
+    print('parent')
+    userAns = request.POST.get('Answer')
+    print(userAns)
+    addComment(request.session.get('username'), p, userAns, 0)
+    return redirect(reverse('view',args=[t,p]))
 
 
 def edit(request, t, p):
