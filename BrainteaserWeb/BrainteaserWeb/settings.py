@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'questions',
     'homepage',
     'users',
+    'community',
 ]
 
 MIDDLEWARE = [
