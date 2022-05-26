@@ -9,6 +9,7 @@ urlpatterns = [ path('', views.index, name='Home'),
                 path('logout/', views.logout, name='logout'),
                 path('search=<str:input>', views.search, name='search'),
                 path('questions/', include('questions.urls')),
+                path('community/', include('community.urls')),
 
 
 

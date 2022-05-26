@@ -44,6 +44,7 @@ class TeaserAnswer(models.Model):
 
     class Meta:
         db_table = 'teaserAnswer'
+        managed = False
 
 
 class FinalAnswer(models.Model):
@@ -56,6 +57,7 @@ class FinalAnswer(models.Model):
 
     class Meta:
         db_table = "final_Answer"
+        managed = False
 
 
 class Community(models.Model):
