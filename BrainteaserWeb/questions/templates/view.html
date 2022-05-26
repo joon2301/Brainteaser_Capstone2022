@@ -161,6 +161,7 @@
                             </p>
                             <details>
                                 <summary>답글 보기</summary>
+
                             <!-- Comment with nested comments-->
                             {% for ans in teaserAns %}
                             <div class="d-flex mb-4">
@@ -203,6 +204,7 @@
                                     <div class="ms-3">
                                         <div class="fw-bold">{{ans.AccID}}</div>
                                         <div> {{ans.Answer}} </div>
+
                                     {% endif %}
 
                                     <a href="post={{ans.TeaserID}}/comment={{ans.AnswerID}}/like"> 추천</a>
@@ -234,10 +236,22 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                {% for rec in Recomment %}
+                                {% if rec.ParentID == ans.AnswerID %}
+                                <!-- Child comment 1-->
+                                <div class="d-flex mt-4">
+                                        <div class="ms-3">
+                                            <div class="fw-bold">&nbsp; &nbsp; &nbsp; {{rec.AccID}}</div>
+                                            &nbsp; &nbsp; &nbsp; {{rec.Answer}}
+                                        </div>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
                             {% endfor %}
                             </div>
                         </div>
-                    </div>
+                        </div>
                 </section>
             </details>
             <div class="bt_wrap">
