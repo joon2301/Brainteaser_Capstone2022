@@ -154,7 +154,7 @@
                         if(document.getElementById('confirm').value == 'confirmed'){
                             form.submit();
                         }else{
-                            var popUp = openWindowPop('/questions/{{category}}/write/test='+document.getElementById('title').value, 'title test');
+                            var popUp = openWindowPop('/community/{{category}}/write/test='+document.getElementById('title').value, 'title test');
                             popUp.onbeforeunload = function(){
                                 console.log("Closed");
                             };

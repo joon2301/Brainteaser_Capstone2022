@@ -13,7 +13,7 @@ urlpatterns = [
     path('<str:t>/post=<int:p>/del', views.delete, name='delete'),
     path('<str:t>/post=<int:p>/comment=<int:c>/del', views.delComment, name='commentDel'),
     path('<str:t>/post=<int:p>/comment=<int:c>/edit', views.editComment, name='commentEdit'),
-    path('<str:t>/post=<int:p>/comment=<int:c>/like', views.likeAnswer, name='commentLike'),
+    path('<str:t>/post=<int:p>/comment=<int:c>/like', views.likeComment, name='commentLike'),
     path('<str:t>/post=<int:p>/edit/',views.edit, name='postEdit'),
 
 ]

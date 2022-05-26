@@ -1,15 +1,15 @@
 from django.forms import ModelForm, Textarea
-from .models import TeaserAnswer
+from .models import Comment
 
-class answerForm(ModelForm):
+class commentForm(ModelForm):
     class Meta:
-        model = TeaserAnswer
-        fields = ['Answer']
+        model = Comment
+        fields = ['Comment']
         widgets = {
-            'Answer': Textarea(attrs={
+            'Comment': Textarea(attrs={
                'class': 'form-control',
                 'rows': '3',
-                'placeholder': '답안을 입력 해주세요!',
+                'placeholder': '댓글을 입력 해주세요!',
                 'required': True,
             }),
         }

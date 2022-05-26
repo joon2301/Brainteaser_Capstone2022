@@ -116,8 +116,11 @@
                 </div>
                 {% for boards in posts %}
                 <div>
-                    <div class="num">{{boards.TeaserID}}</div>
-                    <div class="title"><a href="post={{boards.TeaserID}}">{{boards.Title}}</a></div>
+                    <script>
+                        console.log({{boards.PostID}});
+                    </script>
+                    <div class="num">{{boards.PostID}}</div>
+                    <div class="title"><a href="post={{boards.PostID}}">{{boards.Title}}</a></div>
                     <div class="writer">{{boards.AccID}}</div>
                     <script>
                         var dateTime = '{{boards.Date}}';
