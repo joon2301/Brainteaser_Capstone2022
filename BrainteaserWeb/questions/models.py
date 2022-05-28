@@ -55,6 +55,7 @@ class FinalAnswer(models.Model):
     Date = models.DateTimeField(auto_now_add=True, verbose_name="작성일")
     TeaserID = models.IntegerField(verbose_name="번호")
     Likes = models.IntegerField(verbose_name="추천")
+    ParentID = models.IntegerField(verbose_name="부모번호")
 
     class Meta:
         db_table = "final_Answer"
@@ -68,7 +69,6 @@ class Community(models.Model):
     AccID = models.CharField(max_length=15, verbose_name="작성자")
     Date = models.DateTimeField(auto_now_add=True, verbose_name="작성일")
     Clicked = models.IntegerField(verbose_name="조회수")
-    ParentID = models.IntegerField(verbose_name="부모댓글")
 
     class Meta:
         db_table = 'community'

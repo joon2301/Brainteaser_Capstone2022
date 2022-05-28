@@ -26,7 +26,7 @@ class answerChildForm(ModelForm):
             'Answer': Textarea(attrs={
                'class': 'form-control',
                 'rows': '2',
-                'placeholder': '대댓을 입력 해주세요!',
+                'placeholder': '답글을 입력 해주세요!',
                 'required': True,
             }),
         }

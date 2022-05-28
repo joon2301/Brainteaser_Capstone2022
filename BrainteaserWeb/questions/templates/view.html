@@ -168,31 +168,31 @@
                              {% if request.session.username == ans.AccID %}
                                 <div class="ms-3">
                                     <div class="fw-bold">{{ans.AccID}}
-                                        <a type="button" onclick="edit()" class="fw-bold">수정</a>
+                                        <a type="button" onclick="edit({{ans.AnswerID}})" class="fw-bold">수정</a>
                                         <script>
-                                            function edit(){
-                                                window.open("post={{ans.TeaserID}}/comment={{ans.AnswerID}}/edit",
+                                            function edit(id){
+                                                window.open("post={{ans.TeaserID}}/comment="+id+"/edit",
                                                 "댓글편집", "width=500, height=190");
                                                 }
                                         </script>
                                         <a>/</a>
-                                        <a type='Button' onclick='delQNA()' class="fw-bold">삭제</a>
+                                        <a type='Button' onclick='delQNA({{ans.AnswerID}})' class="fw-bold">삭제</a>
                                         <script>
-                                            function delQNA(){
+                                            function delQNA(id){
                                               var res = confirm('댓글을 정말로 삭제하시겠습니까?');
                                               if(res){
                                                 temp = window.location
-                                                window.location.href = "post={{ans.TeaserID}}/comment={{ans.AnswerID}}/del"
+                                                window.location.href = "post={{ans.TeaserID}}/comment="+id+"/del"
                                                 alert("성공적으로 삭제되었습니다.");
                                                 window.location.href = temp
                                               }
                                             }
                                         </script>
                                         <a>/</a>
-                                        <a type='button' onclick="simQNA()" class="fw-bold">비교</a>
+                                        <a type='button' onclick="simQNA({{ans.AnswerID}})" class="fw-bold">비교</a>
                                         <script>
-                                            function simQNA(){
-                                                window.open("post={{ans.TeaserID}}/comment={{ans.AnswerID}}/sim",
+                                            function simQNA(id){
+                                                window.open("post={{ans.TeaserID}}/comment="+id+"/sim",
                                                 "유사한 댓글", "width=500, height=500");
                                             }
                                         </script>

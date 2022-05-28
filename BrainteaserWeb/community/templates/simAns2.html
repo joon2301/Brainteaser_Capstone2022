@@ -9,11 +9,11 @@
     <div>
         <p> 유사: </p>
         {% for data in sim %}
-        <p>{{data.AccID}}: {{data.Answer}}</p>
+        <p>{{data.AccID}}: {{data.Comment}}</p>
         {% endfor %}
         <p>다름:</p>
         {% for data in unsim %}
-        <p>{{data.AccID}}: {{data.Answer}}</p>
+        <p>{{data.AccID}}: {{data.Comment}}</p>
         {% endfor %}
     </div>
 </body>

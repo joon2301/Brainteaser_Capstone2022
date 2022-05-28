@@ -19,6 +19,7 @@ class Board(models.Model):
     def __str__(self):
         return '{},{},{},{},{}'.format(self.PostID,self.Title,self.AccID,self.Date.date(),self.Clicked)
 
+
 class BoardContents(models.Model):
     PostID = models.IntegerField(verbose_name="번호", primary_key=True)
     Title = models.CharField(max_length=50, verbose_name="제목")
@@ -33,12 +34,13 @@ class BoardContents(models.Model):
     def __str__(self):
         return '{},{},{},{},{}'.format(self.PostID,self.Title,self.AccID,self.Date.date(),self.Clicked,self.Contents)
 
+
 class Comment(models.Model):
     CommentID = models.IntegerField(verbose_name="번호", primary_key=True)
     AccID = models.CharField(max_length=15, verbose_name="작성자")
     Comment = models.CharField(max_length=100, verbose_name="댓글")
     Date = models.DateTimeField(auto_now_add=True, verbose_name="작성일")
-    TeaserID = models.IntegerField(verbose_name="번호")
+    PostID = models.IntegerField(verbose_name="번호")
     ParentID = models.IntegerField(verbose_name="부모댓글")
 
     class Meta:
@@ -49,7 +51,7 @@ class Comment(models.Model):
 class FinalComment(models.Model):
     CommentID = models.IntegerField(verbose_name="번호", primary_key=True)
     AccID = models.CharField(max_length=15, verbose_name="작성자")
-    Answer = models.CharField(max_length=100, verbose_name="댓글")
+    Comment = models.CharField(max_length=100, verbose_name="댓글")
     Date = models.DateTimeField(auto_now_add=True, verbose_name="작성일")
     PostID = models.IntegerField(verbose_name="번호")
     Likes = models.IntegerField(verbose_name="추천")
