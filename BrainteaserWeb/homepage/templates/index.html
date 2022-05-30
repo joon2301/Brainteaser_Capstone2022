@@ -151,21 +151,107 @@
                         <div class="row">
                             <div class="col-xl-6">
                                 <div class="card mb-4">
-                                    <div class="card-header">
-                                        <i class="fas fa-chart-area me-1"></i>
-                                        Best 질문
-                                    </div>
-                                    <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+                            <div class="card-header">Best 문제</div>
+                            <div class="card-body p-0">
+                                <!-- Billing history table-->
+                                <div class="table-responsive table-billing-history">
+                                    <table class="table mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th class="border-gray-200" scope="col">순위</th>
+                                                <th class="border-gray-200" scope="col">제목</th>
+                                                <th class="border-gray-200" scope="col">날짜</th>
+                                                <th class="border-gray-200" scope="col">조회수</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>{{bestB.0.Title}}</td>
+                                                <td>{{bestB.0.Date}}</td>
+                                                <td>{{bestB.0.Clicked}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>{{bestB.1.Title}}</td>
+                                                <td>{{bestB.1.Date}}</td>
+                                                <td>{{bestB.1.Clicked}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td>{{bestB.2.Title}}</td>
+                                                <td>{{bestB.2.Date}}</td>
+                                                <td>{{bestB.2.Clicked}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>4</td>
+                                                <td>{{bestB.3.Title}}</td>
+                                                <td>{{bestB.3.Date}}</td>
+                                                <td>{{bestB.3.Clicked}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>5</td>
+                                                <td>{{bestB.4.Title}}</td>
+                                                <td>{{bestB.4.Date}}</td>
+                                                <td>{{bestB.4.Clicked}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
+                            </div>
+                        </div>
                             </div>
                             <div class="col-xl-6">
                                 <div class="card mb-4">
-                                    <div class="card-header">
-                                        <i class="fas fa-chart-bar me-1"></i>
-                                        커뮤니티 HOT 게시물
-                                    </div>
-                                    <div class="card-body"><canvas id="myBarChart" width="100%" height="30"></canvas></div>
+                            <div class="card-header">Best 게시글</div>
+                            <div class="card-body p-0">
+                                <!-- Billing history table-->
+                                <div class="table-responsive table-billing-history">
+                                    <table class="table mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th class="border-gray-200" scope="col">Transaction ID</th>
+                                                <th class="border-gray-200" scope="col">Date</th>
+                                                <th class="border-gray-200" scope="col">Amount</th>
+                                                <th class="border-gray-200" scope="col">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>{{bestC.0.Title}}</td>
+                                                <td>{{bestC.0.Date}}</td>
+                                                <td>{{bestC.0.Clicked}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>{{bestC.1.Title}}</td>
+                                                <td>{{bestC.1.Date}}</td>
+                                                <td>{{bestC.1.Clicked}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td>{{bestC.2.Title}}</td>
+                                                <td>{{bestC.2.Date}}</td>
+                                                <td>{{bestC.2.Clicked}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>4</td>
+                                                <td>{{bestC.3.Title}}</td>
+                                                <td>{{bestC.3.Date}}</td>
+                                                <td>{{bestC.3.Clicked}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>5</td>
+                                                <td>{{bestC.4.Title}}</td>
+                                                <td>{{bestC.4.Date}}</td>
+                                                <td>{{bestC.4.Clicked}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
+                            </div>
+                        </div>
                             </div>
                         </div>
                         <div class="card mb-4">

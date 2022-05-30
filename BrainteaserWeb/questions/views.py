@@ -34,6 +34,7 @@ def view(request, t, p):
     # 게시글 내용 가져오기
     boardContents = BoardContents.objects.get(TeaserID=p)
     contents = str(boardContents).split(',')
+    example = FinalAnswer.objects.all().order_by('-Likes')[:1]
     # 게시글 댓글 가져오기
     try:
         parentAnswers = FinalAnswer.objects.filter(TeaserID=p, ParentID=0).order_by('-Likes')
@@ -50,6 +51,7 @@ def view(request, t, p):
         'Recomment': childAnswers,
         'answerForm': answerForm,
         'answerChildForm': answerChildForm,
+        'exampleA': example
     })
 
 
