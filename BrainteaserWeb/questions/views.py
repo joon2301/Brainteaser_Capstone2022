@@ -75,11 +75,9 @@ def parentAns(request,t,p):
 def edit(request, t, p):
         board_Contents = BoardContents.objects.get(TeaserID=p)
         if request.method == "POST":
-            board_Contents.Title = request.POST['title']
             board_Contents.Teaser = request.POST['text']
             board_Contents.save()
             return redirect('/questions/'+t+'/post=' + str(p))
-
         else:
             return render(request, 'edit.html', {'bdc': board_Contents, 'category':t})
 

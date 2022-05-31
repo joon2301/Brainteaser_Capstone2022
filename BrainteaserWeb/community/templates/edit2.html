@@ -129,8 +129,10 @@
                 <div><div class="title">
                     <dl>
                         <dt> <b>제목</b> </dt>
-                        <dd><input type="text" id = "title" name="title" placeholder="제목 입력" value={{bdc.Title}} readonly>
-                        </dd>
+                        <dd><input type="text" id = "title" name="title" placeholder="제목 입력" value="" readonly></dd>
+                        <script>
+                            document.getElementById('title').value = `{{bdc.Title}}`;
+                        </script>
                     </dl>
                 </div>
 
