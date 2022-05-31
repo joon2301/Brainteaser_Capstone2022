@@ -3,18 +3,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>비교창</title>
+    <style type="text/css">
+        .my-box { border:1px solid; padding:10px; }
+    </style>
 </head>
 <body>
-    <div>
-        <p> 유사: </p>
-        {% for data in sim %}
-        <p>{{data.AccID}}: {{data.Answer}}</p>
-        {% endfor %}
-        <p>다름:</p>
-        {% for data in unsim %}
-        <p>{{data.AccID}}: {{data.Answer}}</p>
-        {% endfor %}
+    <div style="border:2px solid #F6BB43; padding:10px;">
+        <p>
+            <p> <span style = " font-size:1.5em;  color: #F6BB43;">유사한 의견:</span> </p>
+            {% for data in sim %}
+            <pre>   <span style = " font-size:1.2em;  color: black; strong;"><b>{{data.AccID}}</b></span>: {{data.Answer}}</pre>
+            {% endfor %}
+            
     </div>
+
+            <br>
+            <br>
+            <br>
+
+    <div style="border:2px solid blue; padding:10px;">
+            <p> <span style = " font-size:1.5em;  color: blue;">다른 의견:</span></p>
+            {% for data in unsim %}
+            <pre>   <span style = " font-size:1.2em;  color: black; strong;"><b>{{data.AccID}}</b></span>: {{data.Answer}}</pre>
+            {% endfor %}
+        </p>
+    </div>
+
 </body>
 </html>
