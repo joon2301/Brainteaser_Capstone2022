@@ -12,7 +12,13 @@ def index(request):
     return render(request, 'homeindex.html')
 
 def index2(request):
-    return render(request, 'index.html')
+    bestB = Board.objects.all().order_by('-Clicked')[:5]
+    bestC = Community.objects.all().order_by('-Clicked')[:5]
+    return render(request, 'index.html',{
+        'bestB': bestB,
+        'bestC': bestC
+
+    })
 
 def logout(request):
     print(request.session.get('username'), "로그아웃")
