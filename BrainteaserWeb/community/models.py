@@ -51,7 +51,7 @@ class Comment(models.Model):
 class FinalComment(models.Model):
     CommentID = models.IntegerField(verbose_name="번호", primary_key=True)
     AccID = models.CharField(max_length=15, verbose_name="작성자")
-    Comment = models.CharField(max_length=100, verbose_name="댓글")
+    Comment = models.CharField(max_length=500, verbose_name="댓글")
     Date = models.DateTimeField(auto_now_add=True, verbose_name="작성일")
     PostID = models.IntegerField(verbose_name="번호")
     Likes = models.IntegerField(verbose_name="추천")

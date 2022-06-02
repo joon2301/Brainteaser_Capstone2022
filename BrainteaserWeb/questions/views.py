@@ -34,23 +34,24 @@ def view(request, t, p):
     # 게시글 내용 가져오기
     boardContents = BoardContents.objects.get(TeaserID=p)
     contents = str(boardContents).split(',')
+    example = FinalAnswer.objects.all().order_by('-Likes')[:1]
     # 게시글 댓글 가져오기
     try:
-        parentAnswers = FinalAnswer.objects.filter(TeaserID=p).order_by('-Likes')
-        #childAnswers = FinalAnswer.objects.filter(TeaserID=p).exclude(ParentID=0)
+        parentAnswers = FinalAnswer.objects.filter(TeaserID=p, ParentID=0).order_by('-Likes')
+        childAnswers = FinalAnswer.objects.filter(TeaserID=p).exclude(ParentID=0)
     except:
         print('댓글이 없는데요?')
         answers = None
     # 조회수 +1
-    print(parentAnswers)
-    #print(childAnswers)
     clickedUp(contents, p)
 
     return render(request, 'view.html', {
         "boardContents": boardContents,
         'teaserAns': parentAnswers,
+        'Recomment': childAnswers,
         'answerForm': answerForm,
         'answerChildForm': answerChildForm,
+        'exampleA': example
     })
 
 
@@ -75,11 +76,9 @@ def parentAns(request,t,p):
 def edit(request, t, p):
         board_Contents = BoardContents.objects.get(TeaserID=p)
         if request.method == "POST":
-            board_Contents.Title = request.POST['title']
             board_Contents.Teaser = request.POST['text']
             board_Contents.save()
             return redirect('/questions/'+t+'/post=' + str(p))
-
         else:
             return render(request, 'edit.html', {'bdc': board_Contents, 'category':t})
 
