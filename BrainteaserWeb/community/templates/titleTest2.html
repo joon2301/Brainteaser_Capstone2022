@@ -1,0 +1,50 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        title = opener.document.getElementById('title').value;
+        var count = 1
+    </script>
+    <link rel="stylesheet" href='{% static "css/css.css"%}'>
+    <link rel="stylesheet" href='{% static "css/styles.css"%}'>
+</head>
+<body>
+    <div class="board_wrap">
+        <div class="board_title">
+            <script>
+                document.write('<strong>"'+title+'"와 비슷한 게시물 목록 3가지: </strong>');
+            </script>
+        </div>
+        <div class="board_write_wrap">
+            <div class="info">
+            {% for content in contents %}
+                <script>
+                    var category = {}; category['category1']='IT'; category['category2']='Economics'; category['category3']='Casual';
+                    document.write('<p>'+count+'.제목: {{content.0}}, 게시판: '+category['{{content.1}}']+'</p>');
+                    count = count + 1;
+                    if("{{content.0}}" == title){
+                        console.log("same");
+                        window.alert("같은 이름의 제목은 사용할 수 없습니다!");
+                        window.close();
+                    }
+                </script>
+            {% endfor %}
+            </div>
+            <div class="bt_wrap">
+                <a href="#" onclick="confirm()" class='on'>제목 사용</a>
+                <script>
+                    function confirm(){
+                        window.opener.document.getElementById('confirm').value = 'confirmed';
+                        window.opener.document.getElementById('title').readOnly = true;
+                        window.close();
+                    }
+                </script>
+                <a href="javascript:close();">취소</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

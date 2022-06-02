@@ -1,0 +1,287 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brainteaser</title>
+    <link rel="stylesheet" href='{% static "css/css.css"%}'>
+    <link rel="stylesheet" href='{% static "css/styles2.css"%}'>
+    <link rel="stylesheet" href='{% static "css/styles.css"%}'>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script>
+        var parentToggle = 0;
+        var currAcc = '{{request.session.username}}';
+        console.log(currAcc);
+        var category = document.location.href.split('/')[4];
+    </script>
+</head>
+<body>
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <!-- Navbar Brand-->
+        <a class="navbar-brand ps-3" href="/">Brainteaser</a>
+        <!-- Sidebar Toggle-->
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+        <!-- Navbar Search-->
+        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+            <div class="input-group">
+                <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" id="search-input" onkeyup="if(window.event.keyCode==13){search()}" />
+                <button class="btn btn-primary" id="btnNavbarSearch" type="button" onclick="search()" ></button>
+                <script>
+                    function search(){
+                        location.href = "/search="+document.getElementById('search-input').value.trim()
+                    }
+                </script>
+            </div>
+        </form>
+        <!-- Navbar-->
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="#!">MyPage</a></li>
+
+                    <li><hr class="dropdown-divider" /></li>
+                    <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading">문제은행</div>
+                        <a class="nav-link" href="/index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Questions
+                        </a>
+                        <div class="sb-sidenav-menu-heading">Community</div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            Community
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="/community/case">질문 게시판</a>
+                                <a class="nav-link" href="/community/free">자유 게시판</a>
+                            </nav>
+                        </div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                            Best Q & A
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
+                                    이 주의 Best
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+                                <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="login.html">질문</a>
+                                        <a class="nav-link" href="register.html">통계보기</a>
+                                    </nav>
+                                </div>
+
+                            </nav>
+                        </div>
+                        <div class="sb-sidenav-menu-heading">About</div>
+                        <a class="nav-link" href="charts.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            마가리타
+                        </a>
+                        <a class="nav-link" href="tables.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            sw캡스톤디자인
+                        </a>
+                    </div>
+                </div>
+                <div class="sb-sidenav-footer">
+                    <div class="small">Logged in as:</div>
+                    {{request.session.username}}
+                </div>
+            </nav>
+        </div>
+    .<div id="layoutSidenav_content">
+    <div class="board_wrap">
+        <div class="board_title">
+            <script>
+                if (category == "case"){
+                    document.write("<strong>Community : 면접 사례 공유 게시판</strong>");
+                    document.write("<p>실제 사례. 서로의 면접 경험을 <b>공유</b>하며 가장 본인이라면 어떻게 대답을 했을지 적어보세요!</p>"+
+                                    "<p>그리고 가장 <b>비슷한 생각</b>을 가진 답안도 확인해보세요!</p>"+
+                                    "<p><b>추천</b>을 많이 받은 답안은 <b>최상단</b>에 표시됩니다! 많은 사람들이 공감한 답안도 확인해보세요!</p>");
+                    } else {
+                    document.write("<strong>Community : 자유 게시판</strong>");
+                    document.write("<p>자유롭게 의견을 나누어보아요!</p>");
+                    }
+            </script>
+
+        </div>
+
+        <div class="board_view_wrap">
+            <div class="board_view">
+            <div class ="title" > {{boardContents.Title}}  </div>
+            <div class="info">
+                    <dl>
+                        <dt>번호</dt>
+                        <dd> {{boardContents.PostID}}</dd>
+                    </dl>
+                    </dl>
+                    <dl>
+                        <dt>글쓴이</dt>
+                        <dd> {{boardContents.AccID}}</dd>
+                    </dl>
+                    <dl>
+                        <dt>작성일</dt>
+                        <dd> {{boardContents.Date}}</dd>
+                    </dl>
+                    <dl>
+                        <dt>조회</dt>
+                        <dd>{{boardContents.Clicked}}</dd>
+                    </dl>
+                </div>
+                <div class="cont" style="white-space:pre">{{boardContents.Contents}}</div>
+                <p>
+
+
+                <section class="mb-5">
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <!-- Comment form-->
+                            <div id = 0>
+                                <script>
+                                    document.write(`<form class="mb-4" action= "` +window.location.href+ `/parentAns" method = "POST">
+                                        {{answerForm}}
+                                        <input type="submit" value="입력">
+                                    </form>`);
+                                </script>
+                            </div>
+                            <details>
+                                <summary>예시 답안</summary>
+                                    예시 답안 db 들어갈 곳
+                            </details>
+                            </p>
+                            <details>
+                                <summary>답글 보기</summary>
+                            <!-- Comment with nested comments-->
+                            {% for ans in teaserAns %}
+                            <div class="d-flex mb-4">
+                                <!-- Parent comment-->
+                             {% if request.session.username == ans.AccID %}
+                                <div class="ms-3">
+                                    <div class="fw-bold">{{ans.AccID}}
+                                        <a type="button" onclick="edit({{ans.CommentID}})" class="fw-bold">수정</a>
+                                        <script>
+                                            function edit(id){
+                                                window.open("post={{ans.PostID}}/comment="+id+"/edit",
+                                                "댓글편집", "width=500, height=190");
+                                                }
+                                        </script>
+                                        <a>/</a>
+                                        <a type='Button' onclick='delQNA({{ans.CommentID}})' class="fw-bold">삭제</a>
+                                        <script>
+                                            function delQNA(id){
+                                              var res = confirm('댓글을 정말로 삭제하시겠습니까?');
+                                              if(res){
+                                                temp = window.location
+                                                window.location.href = "post={{ans.PostID}}/comment="+id+"/del"
+                                                alert("성공적으로 삭제되었습니다.");
+                                                window.location.href = temp
+                                              }
+                                            }
+                                        </script>
+                                        <a>/</a>
+                                        <a type='button' onclick="simQNA({{ans.CommentID}})" class="fw-bold">비교</a>
+                                        <script>
+                                            function simQNA(id){
+                                                window.open("post={{ans.PostID}}/comment="+id+"/sim",
+                                                "유사한 댓글", "width=500, height=500");
+                                            }
+                                        </script>
+                                    </div>
+                                    <div> {{ans.Comment}} </div>
+
+                                    {% else %}
+                                    <div class="ms-3">
+                                        <div class="fw-bold">{{ans.AccID}}</div>
+                                        <div> {{ans.Comment}} </div>
+                                    {% endif %}
+
+                                    <a href="post={{ans.PostID}}/comment={{ans.CommentID}}/like"> 추천</a>
+                                        {% if ans.Likes == None %}
+                                            <a>: 0</a>
+                                        {% else %}
+                                            <a>: {{ans.Likes}}</a>
+                                        {% endif %}
+                                    <a>/</a>
+                                    <a type='button' onclick="say({{ans.CommentID}})">답글달기</a>
+                                        <div id = '{{ans.CommentID}}'>
+                                            <script>
+                                                function say(num){
+                                                    if (parentToggle == 0){
+                                                        document.getElementById(num).innerHTML =
+                                                        `<form class="mb-4" action= "`+window.location.href+ `/childAns=` +num+ `" method = "POST">
+                                                            {{answerChildForm}}
+                                                            <input type="submit" value="입력">
+                                                        </form>`;
+
+                                                        parentToggle = 1;
+
+                                                    }else{
+                                                        document.getElementById(num).innerHTML = "";
+                                                        parentToggle = 0;
+                                                    }
+                                                }
+                                            </script>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </details>
+            <div class="bt_wrap">
+                <a href="#" onclick="lists()" class="on">목록</a>
+                <script>
+                    function lists(){
+                        console.log(category);
+                        window.location.href = "/community/"+category;
+                    }
+                </script>
+                {% if request.session.username in boardContents.AccID %}
+                    <a href="post={{boardContents.PostID}}/edit">수정</a>
+
+                     <a type='Button' onclick='delPost()' class="fw-bold">삭제</a>
+                        <script>
+                            function delPost(){
+                              var res = confirm('게시글을 정말로 삭제하시겠습니까?');
+                              if(res){
+                                window.location.href = `post={{boardContents.PostID}}/del`
+                                alert("성공적으로 삭제되었습니다.");
+                                window.location.href = "/community/"+category;
+                              }
+                            }
+                        </script>
+                            {% endif %}
+            </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+<style>
+    details {
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    padding: .5em .5em 0;
+}
+</style>
+</html>

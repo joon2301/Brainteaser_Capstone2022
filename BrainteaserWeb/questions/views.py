@@ -34,6 +34,7 @@ def view(request, t, p):
     # 게시글 내용 가져오기
     boardContents = BoardContents.objects.get(TeaserID=p)
     contents = str(boardContents).split(',')
+    example = FinalAnswer.objects.all().order_by('-Likes')[:1]
     # 게시글 댓글 가져오기
     try:
         parentAnswers = FinalAnswer.objects.filter(TeaserID=p, ParentID=0).order_by('-Likes')
@@ -50,6 +51,7 @@ def view(request, t, p):
         'Recomment': childAnswers,
         'answerForm': answerForm,
         'answerChildForm': answerChildForm,
+        'exampleA': example
     })
 
 
@@ -74,11 +76,9 @@ def parentAns(request,t,p):
 def edit(request, t, p):
         board_Contents = BoardContents.objects.get(TeaserID=p)
         if request.method == "POST":
-            board_Contents.Title = request.POST['title']
             board_Contents.Teaser = request.POST['text']
             board_Contents.save()
             return redirect('/questions/'+t+'/post=' + str(p))
-
         else:
             return render(request, 'edit.html', {'bdc': board_Contents, 'category':t})
 
@@ -180,6 +180,7 @@ def delComment(request, t, p, c):
     print('post:', p, 'answerID:', c)
     with connection.cursor() as cursor:
         try:
+            cursor.execute("delete from teaserAnswer where TeaserID = %d AND ParentID = %d;" % (p, c))
             cursor.execute("delete from Answer_User_Likes where AnswerID = %d;" % (c))
             cursor.execute("delete from teaserAnswer where TeaserID = %d AND AnswerID = %d;"%(p,c))
         except:
@@ -231,7 +232,8 @@ def simAnswer(request,t,p,c):
     try:
         sim = []
         unsim = []
-        answers = FinalAnswer.objects.filter(AnswerID=c).values('Answer')[0]
+        answers = FinalAnswer.objects.filter(AnswerID=c,ParentID=0).values('Answer')[0]
+        print(answers)
         simTmp,unsimTmp = commentSearch(answers['Answer'], p)
         for i in simTmp:
             sim.append(FinalAnswer.objects.filter(Answer=i).values('AccID','Answer')[0])
@@ -253,7 +255,7 @@ def commentSearch(input,teaser):
     # 변수 설정
     corpus = []
     top_k = 2
-    comObjects = FinalAnswer.objects.filter(TeaserID = teaser).values('AnswerID','Answer')
+    comObjects = FinalAnswer.objects.filter(TeaserID=teaser,ParentID=0).exclude(Answer=input).values('AnswerID','Answer')
     for i in comObjects:
         corpus.append(i['Answer'])
     # KoBert 모델을 사용하여 문장 수치화
